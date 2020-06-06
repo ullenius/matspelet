@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link href="tomt_dokument.css" />
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=iso-8859-1"/>
+    <meta name="keywords" content="Recept, Mat, Drinkar, Bröd, Mr Magnuz" />
+    <meta name="author" content="Magnus Andersson" />
+    <title>
+      Mmm, det är så jävla gott! - Matspelet av Mr Magnuz
+    </title>
+    <link type="text/css" href="matspelet.css" rel="stylesheet"/>
+  </head>
+
+  <body>
+     <div id="top">
+        <h1>
+           <a href="index.html">
+              Mmm, det är så jävla gott!
+           </a>
+        </h1>
+        <p>
+           <em>
+              Välkommen till Matspelet!
+           </em>
+        </p>
+     </div>
+
+     <div id="left">
+        <h3>
+           Matspelet
+        </h3>
+        <p>
+           <a href="matspelet.html">Huvudsida</a>
+        </p>
+        <p>
+           <a href="instruktioner.html">Instruktioner</a>
+        </p>
+     </div>
+
+     <div id="center">
+        <h3>
+           Matspelet
+        </h3>
+        <p class="presentation">
+           Svara på fem frågor och vinn ett hemligt recept! Men se upp, du har bara 10 sekunder på dig att svara
+           och frågorna kommer löpande!
+           <br />
+           <br />
+        </p>
+        <div>
+           <input type="button" value="Starta nytt spel!" onclick="startaSpel()" />
+        </div>
+        <p id="fraga" class="speltext">
+        </p>
+        <p id="klocka" class="speltext">
+        </p>
+        <div>
+           <input type="text" id="svar" />
+        </div>
+        <div>
+           <input type="button" value="Svara" onclick="svara()" />
+        </div>
+        <p id ="resultat" class="resultatstil">
+        </p>
+     </div>
+
+     <div id="right">
+        <p>
+           <a href="index.html">Tillbaka till startsidan</a>
+        </p>
+        <p>
+           Av <a href="mailto: mr_magnuz@hotmail.com">Mr Magnuz</a> 2011
+        </p>
+     </div>
+     <script type="text/javascript" src="matspelet.js"></script>
+  </body>
+</html>

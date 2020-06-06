@@ -1,0 +1,177 @@
+body 
+{ 
+   color: black;
+   background: #888888;
+}
+
+#top 
+{
+  border: black 2px solid;
+
+  background: #33CCFF;
+  height: 4.05em;
+}
+
+#top p
+{
+  margin: 0em 0em 0em 0em;
+  padding: 0em 0.1em 0.1em 0.3em;
+  font-size: 1em;
+}
+
+#top a
+{
+  color: black;
+}
+
+#left 
+{
+  border: black 2px solid;
+
+  background: #DDFFFF;
+
+  position: absolute;
+  top: 5.3em;
+  width: 10em;
+}
+
+#center 
+{
+  border: black 2px solid;
+  
+  background: #DDFFFF;
+
+  margin-left: 10.8em;
+  margin-top: 0.5em;
+  margin-right: 10.8em;
+  
+  text-align: center
+}
+
+#right 
+{
+  border: black 2px solid;
+
+  background: #DDFFFF;
+
+  position: absolute;
+  top: 5.3em;
+  right: 0.5em;
+  width: 10em;
+}
+
+p 
+{
+  margin: 0.5em 0.5em 0.5em 0.5em;
+  line-height: 1.5em;
+  font-size: 1em;
+}
+
+p.presentation
+{
+  font-size: 1.2em;
+}
+
+p.resultatstil
+{
+  font-size: 3em;
+}
+
+p.speltext
+{
+  font-size: 1.2em;
+}
+
+
+a
+{
+  text-decoration: none;
+} 
+
+a:link
+{
+  color: #0066FF;
+}
+
+a:visited
+{
+  color: #0066FF;
+}
+
+ol
+{
+  line-height: 1.5em;
+}
+
+ol.presentation
+{
+  font-size: 1.2em;
+}
+
+h1 
+{
+  margin: 0em 0em 0em 0em;
+  padding: 0.1em 0.1em 0.1em 0.3em;
+
+  color: black; 
+  background: #3399FF;
+
+  font-weight: 100;
+}
+
+h3 
+{
+  margin: 0em 0em 0em 0em;
+  padding: 0.1em 0.1em 0.1em 0.3em;
+
+  color: black; 
+  background: #DDFFFF;
+
+  font-weight: bold;
+  
+  clear: left;
+}
+
+h4 
+{
+  margin: 0em 0em 0em 0em;
+  padding: 0.1em 0.1em 0.1em 0.3em;
+
+  color: black;
+  background: #FFCCFF;
+
+  font-weight: 100;
+  
+  clear: left;
+}
+
+h5 
+{
+  margin: 0em 0em 0em 0em;
+  padding: 0.1em 0.1em 0.1em 0.3em;
+
+  color: black; 
+  background: #DDFFFF;
+
+  font-weight: bold;
+  clear: left;
+}
+
+img 
+{
+  margin: 0em 0.5em 0em 0em;
+
+  float: left;
+  clear: right;
+  width: 30%;
+}
+
+#recept_nu
+{
+  width: 50%;
+}
+
+#systembolaget_se
+{
+  width: 25%;
+}
