@@ -89,8 +89,22 @@ document.getElementById ("fraga").appendChild (textNodeFraga);
 textNodeKlocka = document.createTextNode ("Tid kvar: Spel ej startat");
 document.getElementById ("klocka").appendChild (textNodeKlocka);
 
+
+function getQuestion(level) {
+	
+	const questions = Object.create(null);
+	questions[0] = fragorLevel1;
+	questions[1] = fragorLevel2;
+	questions[2] = fragorLevel3;
+	questions[3] = fragorLevel4;
+	questions[4] = fragorLevel5;
+	
+	return questions[level-1];
+}
+
+
 //Starta "Matspelet". Initerar vissa styrvariabler och anropar visaFraga
-function startaSpel ()
+function startaSpel()
 {
 	if (!spelStartat)
 	{
@@ -107,37 +121,17 @@ function startaSpel ()
 }
 
 //Visa n�sta fr�ga i "Matspelet"
-function visaFraga ()
+function visaFraga()
 {
-	fragenummer = Math.floor (Math.random () * ANTAL_FRAGOR_PER_LEVEL);
+	fragenummer = Math.floor (Math.random() * ANTAL_FRAGOR_PER_LEVEL);
 	
 	level++;
-	
 	document.getElementById ("fraga").removeChild (textNodeFraga);
-	
 	svar.value = "";
-		
-	if (level == 1)
-	{
-		textNodeFraga = document.createTextNode ("Fr�ga " + level + ": " + fragorLevel1[fragenummer]);
-	}
-	else if (level == 2)
-	{
-		textNodeFraga = document.createTextNode ("Fr�ga " + level + ": " + fragorLevel2[fragenummer]);
-	}
-	else if (level == 3)
-	{
-		textNodeFraga = document.createTextNode ("Fr�ga " + level + ": " + fragorLevel3[fragenummer]);
-	}
-	else if (level == 4)
-	{
-		textNodeFraga = document.createTextNode ("Fr�ga " + level + ": " + fragorLevel4[fragenummer]);
-	}
-	else if (level == 5)
-	{
-		textNodeFraga = document.createTextNode ("Fr�ga " + level + ": " + fragorLevel5[fragenummer]);
-	}
 	
+	const question = getQuestion(level);
+	
+	textNodeFraga = document.createTextNode ("Fr�ga " + level + ": " + question[fragenummer]);
 	document.getElementById ("fraga").appendChild (textNodeFraga);
 	
 	tidKvar = 10;
