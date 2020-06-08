@@ -55,7 +55,7 @@ svarFragorLevel5 = [];
 
 svarFragorLevel1[0] = "Frankrike";
 svarFragorLevel1[1] = "Dry Martini";
-svarFragorLevel1[2] = "�gg";
+svarFragorLevel1[2] = "Ägg";
 svarFragorLevel1[3] = "Saffran";
 svarFragorLevel1[4] = "Salsa";
 
@@ -78,7 +78,7 @@ svarFragorLevel4[3] = "Ost";
 svarFragorLevel4[4] = "Gari";
 
 svarFragorLevel5[0] = "Kryddblandning";
-svarFragorLevel5[1] = "�l";
+svarFragorLevel5[1] = "Öl";
 svarFragorLevel5[2] = "Mirin";
 svarFragorLevel5[3] = "Riesling";
 svarFragorLevel5[4] = "Chipotle";
@@ -156,7 +156,7 @@ function tid()
 	textNodeKlocka = document.createTextNode ("Tid kvar: " + tidKvar);
 	document.getElementById ("klocka").appendChild (textNodeKlocka);
 	
-	if (tidKvar == 0)
+	if (tidKvar === 0)
 		gameOver ("Tiden tog slut. F�rs�k igen...");
 	
 	tidKvar--;
@@ -180,27 +180,23 @@ function gameOver (meddelande)
 	spelStartat = false;
 }
 
-//L�s in anv�ndarens svar och j�mf�r det med svaret till aktuell fr�ga.
-function svara ()
+//Läs in användarens svar och jämför det med svaret till aktuell fråga.
+function svara()
 {
 	if (spelStartat)
 	{
-		clearInterval (setIntervalID);
+		clearInterval(setIntervalID);
 		var rattSvar = false;
 		
 		const answer = getAnswer(level);
-		if (svar.value.toLowerCase () == answer[fragenummer].toLowerCase ()) {
+		if (svar.value.toLowerCase () === answer[fragenummer].toLowerCase ()) {
 			rattSvar = true;
-		}
-		
-		if (level === 5)
-		{
-			if (svar.value.toLowerCase () == svarFragorLevel5[fragenummer].toLowerCase ())
-			{
+			
+			if (level === 5) {
 				gameOver ("");
 				window.location.assign ("pris.html");
 				return;
-			}				
+			}
 		}
 		
 		if (rattSvar)
