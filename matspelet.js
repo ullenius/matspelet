@@ -2,60 +2,60 @@
 //Av Magnus Andersson 2011
 
 /*
-I "Matspelet" får användaren svara på fem frågor om mat. 
-Användaren får 10 sekunder per fråga att svara.
+I "Matspelet" fï¿½r anvï¿½ndaren svara pï¿½ fem frï¿½gor om mat. 
+Anvï¿½ndaren fï¿½r 10 sekunder per frï¿½ga att svara.
 */
 
-svar = document.getElementById ("svar");
-resultatFinns = false;
-spelStartat = false;
-ANTAL_FRAGOR_PER_LEVEL = 5;
+const svar = document.getElementById ("svar");
+let resultatFinns = false;
+let spelStartat = false;
+const ANTAL_FRAGOR_PER_LEVEL = 5;
 
-fragorLevel1 = new Array (ANTAL_FRAGOR_PER_LEVEL);
-fragorLevel2 = new Array (ANTAL_FRAGOR_PER_LEVEL);
-fragorLevel3 = new Array (ANTAL_FRAGOR_PER_LEVEL);
-fragorLevel4 = new Array (ANTAL_FRAGOR_PER_LEVEL);
-fragorLevel5 = new Array (ANTAL_FRAGOR_PER_LEVEL);
+let fragorLevel1 = [];
+let fragorLevel2 = [];
+let fragorLevel3 = [];
+let fragorLevel4 = [];
+let fragorLevel5 = [];
 
-fragorLevel1[0] = "Från vilket land kommer såsen Béarnaise?";
-fragorLevel1[1] = "James Bond dricker ofta en drink gjord på gin och vermouth. Vad heter drinken?";
-fragorLevel1[2] = "Vad är huvudingrediensen i en omelett?";
-fragorLevel1[3] = "Vilken är världens dyraste krydda?";
-fragorLevel1[4] = "Vad kallas den tomatbaserade grönsakssåsen som ofta äts med tacos och nachos?";
+fragorLevel1[0] = "Frï¿½n vilket land kommer sï¿½sen Bï¿½arnaise?";
+fragorLevel1[1] = "James Bond dricker ofta en drink gjord pï¿½ gin och vermouth. Vad heter drinken?";
+fragorLevel1[2] = "Vad ï¿½r huvudingrediensen i en omelett?";
+fragorLevel1[3] = "Vilken ï¿½r vï¿½rldens dyraste krydda?";
+fragorLevel1[4] = "Vad kallas den tomatbaserade grï¿½nsakssï¿½sen som ofta ï¿½ts med tacos och nachos?";
 
-fragorLevel2[0] = "Vad heter en känd italiensk sås som innehåller basilika, vitlök, olivolja, parmesan och pinjenötter?";
-fragorLevel2[1] = "Vad heter pizzan som bara innehåller tomatsås och ost (och ibland även basilika)?";
-fragorLevel2[2] = "Vilken typ av mat är en salsiccia?";
-fragorLevel2[3] = "Vad kallas den asiatiska sojabönsmassan som är proteinrik och nästan smaklös?";
-fragorLevel2[4] = "Från vilken del av Sverige härstammar saffranspannkaka?";
+fragorLevel2[0] = "Vad heter en kï¿½nd italiensk sï¿½s som innehï¿½ller basilika, vitlï¿½k, olivolja, parmesan och pinjenï¿½tter?";
+fragorLevel2[1] = "Vad heter pizzan som bara innehï¿½ller tomatsï¿½s och ost (och ibland ï¿½ven basilika)?";
+fragorLevel2[2] = "Vilken typ av mat ï¿½r en salsiccia?";
+fragorLevel2[3] = "Vad kallas den asiatiska sojabï¿½nsmassan som ï¿½r proteinrik och nï¿½stan smaklï¿½s?";
+fragorLevel2[4] = "Frï¿½n vilken del av Sverige hï¿½rstammar saffranspannkaka?";
 
-fragorLevel3[0] = "Vilken grönsak är viktig i en moussaka?";
-fragorLevel3[1] = "Vad heter rätten från Skottland som görs med lever, inälvor, lök och havregryn?";
-fragorLevel3[2] = "Vilken är huvudingrediensen i kroppkakor?";
-fragorLevel3[3] = "Från vilket djurs mjölk gör man chèvreost?";
-fragorLevel3[4] = "Vilken krydda ger currypulver dess gula färg?";
+fragorLevel3[0] = "Vilken grï¿½nsak ï¿½r viktig i en moussaka?";
+fragorLevel3[1] = "Vad heter rï¿½tten frï¿½n Skottland som gï¿½rs med lever, inï¿½lvor, lï¿½k och havregryn?";
+fragorLevel3[2] = "Vilken ï¿½r huvudingrediensen i kroppkakor?";
+fragorLevel3[3] = "Frï¿½n vilket djurs mjï¿½lk gï¿½r man chï¿½vreost?";
+fragorLevel3[4] = "Vilken krydda ger currypulver dess gula fï¿½rg?";
 
-fragorLevel4[0] = "Matkedjan KFC är specialiserade på snabbmat av en viss typ av djur. Vilket?";
-fragorLevel4[1] = "Paul Giamattis karaktär i filmen Sideways är förtjust i en viss typ av vindruva. Vilken?";
-fragorLevel4[2] = "Vilken typ av öl görs det mest av i England?";
-fragorLevel4[3] = "Vilken ingrediens, förutom skinka, har huvudrollen i en Quiche Lorraine?";
-fragorLevel4[4] = "Vad kallas den inlagda ingefäran som brukar ätas i samband med sushi?";
+fragorLevel4[0] = "Matkedjan KFC ï¿½r specialiserade pï¿½ snabbmat av en viss typ av djur. Vilket?";
+fragorLevel4[1] = "Paul Giamattis karaktï¿½r i filmen Sideways ï¿½r fï¿½rtjust i en viss typ av vindruva. Vilken?";
+fragorLevel4[2] = "Vilken typ av ï¿½l gï¿½rs det mest av i England?";
+fragorLevel4[3] = "Vilken ingrediens, fï¿½rutom skinka, har huvudrollen i en Quiche Lorraine?";
+fragorLevel4[4] = "Vad kallas den inlagda ingefï¿½ran som brukar ï¿½tas i samband med sushi?";
 
 fragorLevel5[0] = "Vad betyder det hindiska ordet masala?";
-fragorLevel5[1] = "Vilken typ av dryck är geuze?";
-fragorLevel5[2] = "Vad är det riktiga namnet för söt matlagningssake?";
-fragorLevel5[3] = "Vilken grön druva ger viner som passar till het mat med asiatiska inslag?";
-fragorLevel5[4] = "Vad kallas jalapeño som har blivit rökt och torkad?";
+fragorLevel5[1] = "Vilken typ av dryck ï¿½r geuze?";
+fragorLevel5[2] = "Vad ï¿½r det riktiga namnet fï¿½r sï¿½t matlagningssake?";
+fragorLevel5[3] = "Vilken grï¿½n druva ger viner som passar till het mat med asiatiska inslag?";
+fragorLevel5[4] = "Vad kallas jalapeï¿½o som har blivit rï¿½kt och torkad?";
 
-svarFragorLevel1 = new Array (ANTAL_FRAGOR_PER_LEVEL);
-svarFragorLevel2 = new Array (ANTAL_FRAGOR_PER_LEVEL);
-svarFragorLevel3 = new Array (ANTAL_FRAGOR_PER_LEVEL);
-svarFragorLevel4 = new Array (ANTAL_FRAGOR_PER_LEVEL);
-svarFragorLevel5 = new Array (ANTAL_FRAGOR_PER_LEVEL);
+svarFragorLevel1 = [];
+svarFragorLevel2 = [];
+svarFragorLevel3 = [];
+svarFragorLevel4 = [];
+svarFragorLevel5 = [];
 
 svarFragorLevel1[0] = "Frankrike";
 svarFragorLevel1[1] = "Dry Martini";
-svarFragorLevel1[2] = "Ägg";
+svarFragorLevel1[2] = "ï¿½gg";
 svarFragorLevel1[3] = "Saffran";
 svarFragorLevel1[4] = "Salsa";
 
@@ -78,12 +78,12 @@ svarFragorLevel4[3] = "Ost";
 svarFragorLevel4[4] = "Gari";
 
 svarFragorLevel5[0] = "Kryddblandning";
-svarFragorLevel5[1] = "Öl";
+svarFragorLevel5[1] = "ï¿½l";
 svarFragorLevel5[2] = "Mirin";
 svarFragorLevel5[3] = "Riesling";
 svarFragorLevel5[4] = "Chipotle";
 
-textNodeFraga = document.createTextNode ("Fråga 1: Spel ej startat");
+textNodeFraga = document.createTextNode ("Frï¿½ga 1: Spel ej startat");
 document.getElementById ("fraga").appendChild (textNodeFraga);
 
 textNodeKlocka = document.createTextNode ("Tid kvar: Spel ej startat");
@@ -106,7 +106,7 @@ function startaSpel ()
 	}
 }
 
-//Visa nästa fråga i "Matspelet"
+//Visa nï¿½sta frï¿½ga i "Matspelet"
 function visaFraga ()
 {
 	fragenummer = Math.floor (Math.random () * ANTAL_FRAGOR_PER_LEVEL);
@@ -119,23 +119,23 @@ function visaFraga ()
 		
 	if (level == 1)
 	{
-		textNodeFraga = document.createTextNode ("Fråga " + level + ": " + fragorLevel1[fragenummer]);
+		textNodeFraga = document.createTextNode ("Frï¿½ga " + level + ": " + fragorLevel1[fragenummer]);
 	}
 	else if (level == 2)
 	{
-		textNodeFraga = document.createTextNode ("Fråga " + level + ": " + fragorLevel2[fragenummer]);
+		textNodeFraga = document.createTextNode ("Frï¿½ga " + level + ": " + fragorLevel2[fragenummer]);
 	}
 	else if (level == 3)
 	{
-		textNodeFraga = document.createTextNode ("Fråga " + level + ": " + fragorLevel3[fragenummer]);
+		textNodeFraga = document.createTextNode ("Frï¿½ga " + level + ": " + fragorLevel3[fragenummer]);
 	}
 	else if (level == 4)
 	{
-		textNodeFraga = document.createTextNode ("Fråga " + level + ": " + fragorLevel4[fragenummer]);
+		textNodeFraga = document.createTextNode ("Frï¿½ga " + level + ": " + fragorLevel4[fragenummer]);
 	}
 	else if (level == 5)
 	{
-		textNodeFraga = document.createTextNode ("Fråga " + level + ": " + fragorLevel5[fragenummer]);
+		textNodeFraga = document.createTextNode ("Frï¿½ga " + level + ": " + fragorLevel5[fragenummer]);
 	}
 	
 	document.getElementById ("fraga").appendChild (textNodeFraga);
@@ -144,7 +144,7 @@ function visaFraga ()
 	setIntervalID = setInterval (tid, 1000);
 }
 
-//Styr spelets klocka. Visar en nedräkning på 10 sekunder per fråga 
+//Styr spelets klocka. Visar en nedrï¿½kning pï¿½ 10 sekunder per frï¿½ga 
 function tid ()
 {
 	document.getElementById ("klocka").removeChild (textNodeKlocka);
@@ -152,12 +152,12 @@ function tid ()
 	document.getElementById ("klocka").appendChild (textNodeKlocka);
 	
 	if (tidKvar == 0)
-		gameOver ("Tiden tog slut. Försök igen...");
+		gameOver ("Tiden tog slut. Fï¿½rsï¿½k igen...");
 	
 	tidKvar--;
 }
 
-//Återställer spelet och visar meddelande om varför man har misslyckats
+//ï¿½terstï¿½ller spelet och visar meddelande om varfï¿½r man har misslyckats
 function gameOver (meddelande)
 {
 	document.getElementById ("klocka").removeChild (textNodeKlocka);
@@ -165,7 +165,7 @@ function gameOver (meddelande)
 	document.getElementById ("klocka").appendChild (textNodeKlocka);
 	
 	document.getElementById ("fraga").removeChild (textNodeFraga);
-	textNodeFraga = document.createTextNode ("Fråga 1: Spel ej startat");
+	textNodeFraga = document.createTextNode ("Frï¿½ga 1: Spel ej startat");
 	document.getElementById ("fraga").appendChild (textNodeFraga);
 	
 	clearInterval (setIntervalID);
@@ -175,7 +175,7 @@ function gameOver (meddelande)
 	spelStartat = false;
 }
 
-//Läs in användarens svar och jämför det med svaret till aktuell fråga.
+//Lï¿½s in anvï¿½ndarens svar och jï¿½mfï¿½r det med svaret till aktuell frï¿½ga.
 function svara ()
 {
 	if (spelStartat)
@@ -216,6 +216,6 @@ function svara ()
 		if (rattSvar)
 			visaFraga ();
 		else 
-			gameOver ("Fel svar! Försök igen...");
+			gameOver ("Fel svar! Fï¿½rsï¿½k igen...");
 	}
 }
