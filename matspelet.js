@@ -102,6 +102,17 @@ function getQuestion(level) {
 	return questions[level-1];
 }
 
+function getAnswer(level) {
+	
+	const answers = Object.create(null);
+	answers[0] = svarFragorLevel1;
+	answers[1] = svarFragorLevel2;
+	answers[2] = svarFragorLevel3;
+	answers[3] = svarFragorLevel4;
+	answers[4] = svarFragorLevel5;
+	
+	return answers[level-1];
+}
 
 //Starta "Matspelet". Initerar vissa styrvariabler och anropar visaFraga
 function startaSpel()
@@ -139,7 +150,7 @@ function visaFraga()
 }
 
 //Styr spelets klocka. Visar en nedr�kning p� 10 sekunder per fr�ga 
-function tid ()
+function tid()
 {
 	document.getElementById ("klocka").removeChild (textNodeKlocka);
 	textNodeKlocka = document.createTextNode ("Tid kvar: " + tidKvar);
@@ -177,27 +188,12 @@ function svara ()
 		clearInterval (setIntervalID);
 		var rattSvar = false;
 		
-		if (level == 1)
-		{
-			if (svar.value.toLowerCase () == svarFragorLevel1[fragenummer].toLowerCase ())
-				rattSvar = true;
+		const answer = getAnswer(level);
+		if (svar.value.toLowerCase () == answer[fragenummer].toLowerCase ()) {
+			rattSvar = true;
 		}
-		else if (level == 2)
-		{
-			if (svar.value.toLowerCase () == svarFragorLevel2[fragenummer].toLowerCase ())
-				rattSvar = true;	
-		}
-		else if (level == 3)
-		{
-			if (svar.value.toLowerCase () == svarFragorLevel3[fragenummer].toLowerCase ())
-				rattSvar = true;	
-		}
-		else if (level == 4)
-		{
-			if (svar.value.toLowerCase () == svarFragorLevel4[fragenummer].toLowerCase ())
-				rattSvar = true;				
-		}
-		else if (level == 5)
+		
+		if (level === 5)
 		{
 			if (svar.value.toLowerCase () == svarFragorLevel5[fragenummer].toLowerCase ())
 			{
