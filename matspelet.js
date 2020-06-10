@@ -26,7 +26,7 @@ fragorLevel1[4] = "Vad kallas den tomatbaserade grönsakssåsen som ofta äts me
 fragorLevel2[0] = "Vad heter en känd italiensk sås som innehåller basilika, vitlök, olivolja, parmesan och pinjenétter?";
 fragorLevel2[1] = "Vad heter pizzan som bara innehåller tomatsås och ost (och ibland även basilika)?";
 fragorLevel2[2] = "Vilken typ av mat är en salsiccia?";
-fragorLevel2[3] = "Vad kallas den asiatiska sojabönsmassan som �r proteinrik och nästan smaklös?";
+fragorLevel2[3] = "Vad kallas den asiatiska sojabönsmassan som är proteinrik och nästan smaklös?";
 fragorLevel2[4] = "Från vilken del av Sverige härstammar saffranspannkaka?";
 
 fragorLevel3[0] = "Vilken grönsak är viktig i en moussaka?";
@@ -83,12 +83,13 @@ svarFragorLevel5[2] = "Mirin";
 svarFragorLevel5[3] = "Riesling";
 svarFragorLevel5[4] = "Chipotle";
 
-textNodeFraga = document.createTextNode ("Fråga 1: Spel ej startat");
-document.getElementById("fraga").appendChild(textNodeFraga);
+window.onload = init();
 
-textNodeKlocka = document.createTextNode ("Tid kvar: Spel ej startat");
-document.getElementById ("klocka").appendChild(textNodeKlocka);
-
+function init() {
+	
+	displayTime("Tid kvar: Spel ej startat");
+	displayQuestion("Fråga 1: Spel ej startat");
+}
 
 function getQuestion(level) {
 	
@@ -122,7 +123,7 @@ function startaSpel()
 		if (resultatFinns)
 		{
 			resultatFinns = false;
-			document.getElementById ("resultat").removeChild (textNodeResultat);		
+			document.getElementById ("resultat").removeChild(textNodeResultat);		
 		}
 
 		level = 0;
@@ -155,7 +156,7 @@ function displayTime(time) {
 	timer.textContent = time;
 }
 
-//Styr spelets klocka. Visar en nedräkning p� 10 sekunder per fr�ga 
+//Styr spelets klocka. Visar en nedräkning på 10 sekunder per fråga 
 function tid()
 {
 	displayTime("Tid kvar: " + tidKvar);
@@ -170,9 +171,6 @@ function gameOver (meddelande) {
 	
 	const clock = document.getElementById("klocka");
 	const question = document.getElementById("fraga");
-	
-	console.log(clock);
-	console.log(question);
 	
 	displayTime("Tid kvar: Spel ej startat");
 	displayQuestion("Fråga 1: Spel ej startat");
@@ -198,7 +196,7 @@ function svara()
 			
 			if (level === 5) {
 				gameOver ("");
-				window.location.assign ("pris.html");
+				window.location.assign("pris.html");
 				return;
 			}
 		}
