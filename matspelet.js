@@ -2,8 +2,8 @@
 //Av Magnus Andersson 2011
 
 /*
-I "Matspelet" f�r anv�ndaren svara p� fem fr�gor om mat. 
-Anv�ndaren f�r 10 sekunder per fr�ga att svara.
+I "Matspelet" får anv�ndaren svara på fem frågor om mat. 
+Anv�ndaren får 10 sekunder per fråga att svara.
 */
 
 const svar = document.getElementById ("svar");
@@ -17,35 +17,35 @@ let fragorLevel3 = [];
 let fragorLevel4 = [];
 let fragorLevel5 = [];
 
-fragorLevel1[0] = "Fr�n vilket land kommer s�sen B�arnaise?";
-fragorLevel1[1] = "James Bond dricker ofta en drink gjord p� gin och vermouth. Vad heter drinken?";
+fragorLevel1[0] = "Fr�n vilket land kommer såsen Béarnaise?";
+fragorLevel1[1] = "James Bond dricker ofta en drink gjord på gin och vermouth. Vad heter drinken?";
 fragorLevel1[2] = "Vad �r huvudingrediensen i en omelett?";
 fragorLevel1[3] = "Vilken �r v�rldens dyraste krydda?";
-fragorLevel1[4] = "Vad kallas den tomatbaserade gr�nsakss�sen som ofta �ts med tacos och nachos?";
+fragorLevel1[4] = "Vad kallas den tomatbaserade gr�nsakss�sen som ofta äts med tacos och nachos?";
 
-fragorLevel2[0] = "Vad heter en k�nd italiensk s�s som inneh�ller basilika, vitl�k, olivolja, parmesan och pinjen�tter?";
-fragorLevel2[1] = "Vad heter pizzan som bara inneh�ller tomats�s och ost (och ibland �ven basilika)?";
-fragorLevel2[2] = "Vilken typ av mat �r en salsiccia?";
-fragorLevel2[3] = "Vad kallas den asiatiska sojab�nsmassan som �r proteinrik och n�stan smakl�s?";
-fragorLevel2[4] = "Fr�n vilken del av Sverige h�rstammar saffranspannkaka?";
+fragorLevel2[0] = "Vad heter en k�nd italiensk sås som innehåller basilika, vitlök, olivolja, parmesan och pinjenétter?";
+fragorLevel2[1] = "Vad heter pizzan som bara innehåller tomatsås och ost (och ibland även basilika)?";
+fragorLevel2[2] = "Vilken typ av mat är en salsiccia?";
+fragorLevel2[3] = "Vad kallas den asiatiska sojabönsmassan som �r proteinrik och nästan smaklös?";
+fragorLevel2[4] = "Från vilken del av Sverige h�rstammar saffranspannkaka?";
 
-fragorLevel3[0] = "Vilken gr�nsak �r viktig i en moussaka?";
-fragorLevel3[1] = "Vad heter r�tten fr�n Skottland som g�rs med lever, in�lvor, l�k och havregryn?";
-fragorLevel3[2] = "Vilken �r huvudingrediensen i kroppkakor?";
-fragorLevel3[3] = "Fr�n vilket djurs mj�lk g�r man ch�vreost?";
-fragorLevel3[4] = "Vilken krydda ger currypulver dess gula f�rg?";
+fragorLevel3[0] = "Vilken grönsak är viktig i en moussaka?";
+fragorLevel3[1] = "Vad heter rötten fr�n Skottland som görs med lever, inälvor, lök och havregryn?";
+fragorLevel3[2] = "Vilken är huvudingrediensen i kroppkakor?";
+fragorLevel3[3] = "Från vilket djurs mjölk gör man chévreost?";
+fragorLevel3[4] = "Vilken krydda ger currypulver dess gula färg?";
 
-fragorLevel4[0] = "Matkedjan KFC �r specialiserade p� snabbmat av en viss typ av djur. Vilket?";
-fragorLevel4[1] = "Paul Giamattis karakt�r i filmen Sideways �r f�rtjust i en viss typ av vindruva. Vilken?";
-fragorLevel4[2] = "Vilken typ av �l g�rs det mest av i England?";
-fragorLevel4[3] = "Vilken ingrediens, f�rutom skinka, har huvudrollen i en Quiche Lorraine?";
-fragorLevel4[4] = "Vad kallas den inlagda ingef�ran som brukar �tas i samband med sushi?";
+fragorLevel4[0] = "Matkedjan KFC är specialiserade på snabbmat av en viss typ av djur. Vilket?";
+fragorLevel4[1] = "Paul Giamattis karaktär i filmen Sideways är förtjust i en viss typ av vindruva. Vilken?";
+fragorLevel4[2] = "Vilken typ av öl görs det mest av i England?";
+fragorLevel4[3] = "Vilken ingrediens, förutom skinka, har huvudrollen i en Quiche Lorraine?";
+fragorLevel4[4] = "Vad kallas den inlagda ingefäran som brukar ätas i samband med sushi?";
 
 fragorLevel5[0] = "Vad betyder det hindiska ordet masala?";
-fragorLevel5[1] = "Vilken typ av dryck �r geuze?";
-fragorLevel5[2] = "Vad �r det riktiga namnet f�r s�t matlagningssake?";
-fragorLevel5[3] = "Vilken gr�n druva ger viner som passar till het mat med asiatiska inslag?";
-fragorLevel5[4] = "Vad kallas jalape�o som har blivit r�kt och torkad?";
+fragorLevel5[1] = "Vilken typ av dryck är geuze?";
+fragorLevel5[2] = "Vad är det riktiga namnet för söt matlagningssake?";
+fragorLevel5[3] = "Vilken grön druva ger viner som passar till het mat med asiatiska inslag?";
+fragorLevel5[4] = "Vad kallas jalapñeo som har blivit rökt och torkad?";
 
 svarFragorLevel1 = [];
 svarFragorLevel2 = [];
@@ -83,7 +83,7 @@ svarFragorLevel5[2] = "Mirin";
 svarFragorLevel5[3] = "Riesling";
 svarFragorLevel5[4] = "Chipotle";
 
-textNodeFraga = document.createTextNode ("Fr�ga 1: Spel ej startat");
+textNodeFraga = document.createTextNode ("Fråga 1: Spel ej startat");
 document.getElementById ("fraga").appendChild (textNodeFraga);
 
 textNodeKlocka = document.createTextNode ("Tid kvar: Spel ej startat");
@@ -142,7 +142,7 @@ function visaFraga()
 	
 	const question = getQuestion(level);
 	
-	textNodeFraga = document.createTextNode ("Fr�ga " + level + ": " + question[fragenummer]);
+	textNodeFraga = document.createTextNode ("Fråga " + level + ": " + question[fragenummer]);
 	document.getElementById ("fraga").appendChild (textNodeFraga);
 	
 	tidKvar = 10;
@@ -157,7 +157,7 @@ function tid()
 	document.getElementById ("klocka").appendChild (textNodeKlocka);
 	
 	if (tidKvar === 0)
-		gameOver ("Tiden tog slut. F�rs�k igen...");
+		gameOver ("Tiden tog slut. Försök igen...");
 	
 	tidKvar--;
 }
@@ -170,7 +170,7 @@ function gameOver (meddelande)
 	document.getElementById ("klocka").appendChild (textNodeKlocka);
 	
 	document.getElementById ("fraga").removeChild (textNodeFraga);
-	textNodeFraga = document.createTextNode ("Fr�ga 1: Spel ej startat");
+	textNodeFraga = document.createTextNode ("Fråga 1: Spel ej startat");
 	document.getElementById ("fraga").appendChild (textNodeFraga);
 	
 	clearInterval (setIntervalID);
@@ -202,6 +202,6 @@ function svara()
 		if (rattSvar)
 			visaFraga ();
 		else 
-			gameOver ("Fel svar! F�rs�k igen...");
+			gameOver ("Fel svar! Försök igen...");
 	}
 }
