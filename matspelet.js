@@ -137,25 +137,28 @@ function visaFraga()
 	fragenummer = Math.floor (Math.random() * ANTAL_FRAGOR_PER_LEVEL);
 	
 	level++;
-	document.getElementById ("fraga").removeChild (textNodeFraga);
 	svar.value = "";
 	
 	const question = getQuestion(level);
-	
-	textNodeFraga = document.createTextNode ("Fråga " + level + ": " + question[fragenummer]);
-	document.getElementById ("fraga").appendChild (textNodeFraga);
-	
+	displayQuestion("Fråga " + level + ": " + question[fragenummer]);
 	tidKvar = 10;
 	setIntervalID = setInterval (tid, 1000);
+}
+
+function displayQuestion(message) {
+	const question = document.getElementById("fraga");
+	question.textContent = message;
+}
+
+function displayTime(time) {
+	const timer = document.getElementById("klocka");
+	timer.textContent = time;
 }
 
 //Styr spelets klocka. Visar en nedräkning p� 10 sekunder per fr�ga 
 function tid()
 {
-	document.getElementById ("klocka").removeChild (textNodeKlocka);
-	textNodeKlocka = document.createTextNode ("Tid kvar: " + tidKvar);
-	document.getElementById ("klocka").appendChild (textNodeKlocka);
-	
+	displayTime("Tid kvar: " + tidKvar);
 	if (tidKvar === 0)
 		gameOver ("Tiden tog slut. Försök igen...");
 	
@@ -163,19 +166,20 @@ function tid()
 }
 
 //Återställer spelet och visar meddelande om varför man har misslyckats
-function gameOver (meddelande)
-{
-	document.getElementById ("klocka").removeChild (textNodeKlocka);
-	textNodeKlocka = document.createTextNode ("Tid kvar: Spel ej startat");
-	document.getElementById ("klocka").appendChild (textNodeKlocka);
+function gameOver (meddelande) {
 	
-	document.getElementById ("fraga").removeChild (textNodeFraga);
-	textNodeFraga = document.createTextNode ("Fråga 1: Spel ej startat");
-	document.getElementById ("fraga").appendChild (textNodeFraga);
+	const clock = document.getElementById("klocka");
+	const question = document.getElementById("fraga");
+	
+	console.log(clock);
+	console.log(question);
+	
+	displayTime("Tid kvar: Spel ej startat");
+	displayQuestion("Fråga 1: Spel ej startat");
 	
 	clearInterval (setIntervalID);
-	textNodeResultat = document.createTextNode (meddelande);
-	document.getElementById ("resultat").appendChild (textNodeResultat);
+	textNodeResultat = document.createTextNode(meddelande);
+	document.getElementById("resultat").appendChild(textNodeResultat);
 	resultatFinns = true;
 	spelStartat = false;
 }
@@ -199,9 +203,9 @@ function svara()
 			}
 		}
 		
-		if (rattSvar)
+		if (rattSvar === true)
 			visaFraga();
-		else 
+		else if (rattSvar === false)
 			gameOver("Fel svar! Försök igen...");
 	}
 	
