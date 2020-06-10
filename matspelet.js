@@ -2,11 +2,11 @@
 //Av Magnus Andersson 2011
 
 /*
-I "Matspelet" får anv�ndaren svara på fem frågor om mat. 
-Anv�ndaren får 10 sekunder per fråga att svara.
+I "Matspelet" får användaren svara på fem frågor om mat. 
+Användaren får 10 sekunder per fråga att svara.
 */
 
-const svar = document.getElementById ("svar");
+const svar = document.getElementById("svar");
 let resultatFinns = false;
 let spelStartat = false;
 const ANTAL_FRAGOR_PER_LEVEL = 5;
@@ -17,20 +17,20 @@ let fragorLevel3 = [];
 let fragorLevel4 = [];
 let fragorLevel5 = [];
 
-fragorLevel1[0] = "Fr�n vilket land kommer såsen Béarnaise?";
+fragorLevel1[0] = "Från vilket land kommer såsen Béarnaise?";
 fragorLevel1[1] = "James Bond dricker ofta en drink gjord på gin och vermouth. Vad heter drinken?";
-fragorLevel1[2] = "Vad �r huvudingrediensen i en omelett?";
-fragorLevel1[3] = "Vilken �r v�rldens dyraste krydda?";
-fragorLevel1[4] = "Vad kallas den tomatbaserade gr�nsakss�sen som ofta äts med tacos och nachos?";
+fragorLevel1[2] = "Vad är huvudingrediensen i en omelett?";
+fragorLevel1[3] = "Vilken är världens dyraste krydda?";
+fragorLevel1[4] = "Vad kallas den tomatbaserade grönsakssåsen som ofta äts med tacos och nachos?";
 
-fragorLevel2[0] = "Vad heter en k�nd italiensk sås som innehåller basilika, vitlök, olivolja, parmesan och pinjenétter?";
+fragorLevel2[0] = "Vad heter en känd italiensk sås som innehåller basilika, vitlök, olivolja, parmesan och pinjenétter?";
 fragorLevel2[1] = "Vad heter pizzan som bara innehåller tomatsås och ost (och ibland även basilika)?";
 fragorLevel2[2] = "Vilken typ av mat är en salsiccia?";
 fragorLevel2[3] = "Vad kallas den asiatiska sojabönsmassan som �r proteinrik och nästan smaklös?";
-fragorLevel2[4] = "Från vilken del av Sverige h�rstammar saffranspannkaka?";
+fragorLevel2[4] = "Från vilken del av Sverige härstammar saffranspannkaka?";
 
 fragorLevel3[0] = "Vilken grönsak är viktig i en moussaka?";
-fragorLevel3[1] = "Vad heter rötten fr�n Skottland som görs med lever, inälvor, lök och havregryn?";
+fragorLevel3[1] = "Vad heter rötten från Skottland som görs med lever, inälvor, lök och havregryn?";
 fragorLevel3[2] = "Vilken är huvudingrediensen i kroppkakor?";
 fragorLevel3[3] = "Från vilket djurs mjölk gör man chévreost?";
 fragorLevel3[4] = "Vilken krydda ger currypulver dess gula färg?";
@@ -84,10 +84,10 @@ svarFragorLevel5[3] = "Riesling";
 svarFragorLevel5[4] = "Chipotle";
 
 textNodeFraga = document.createTextNode ("Fråga 1: Spel ej startat");
-document.getElementById ("fraga").appendChild (textNodeFraga);
+document.getElementById("fraga").appendChild(textNodeFraga);
 
 textNodeKlocka = document.createTextNode ("Tid kvar: Spel ej startat");
-document.getElementById ("klocka").appendChild (textNodeKlocka);
+document.getElementById ("klocka").appendChild(textNodeKlocka);
 
 
 function getQuestion(level) {
@@ -131,7 +131,7 @@ function startaSpel()
 	}
 }
 
-//Visa n�sta fr�ga i "Matspelet"
+//Visa nästa fråga i "Matspelet"
 function visaFraga()
 {
 	fragenummer = Math.floor (Math.random() * ANTAL_FRAGOR_PER_LEVEL);
@@ -149,7 +149,7 @@ function visaFraga()
 	setIntervalID = setInterval (tid, 1000);
 }
 
-//Styr spelets klocka. Visar en nedr�kning p� 10 sekunder per fr�ga 
+//Styr spelets klocka. Visar en nedräkning p� 10 sekunder per fr�ga 
 function tid()
 {
 	document.getElementById ("klocka").removeChild (textNodeKlocka);
@@ -162,7 +162,7 @@ function tid()
 	tidKvar--;
 }
 
-//�terst�ller spelet och visar meddelande om varf�r man har misslyckats
+//Återställer spelet och visar meddelande om varför man har misslyckats
 function gameOver (meddelande)
 {
 	document.getElementById ("klocka").removeChild (textNodeKlocka);
@@ -189,7 +189,7 @@ function svara()
 		var rattSvar = false;
 		
 		const answer = getAnswer(level);
-		if (svar.value.toLowerCase () === answer[fragenummer].toLowerCase ()) {
+		if (equalsIgnoreCase(svar.value, answer[fragenummer]) === true) {
 			rattSvar = true;
 			
 			if (level === 5) {
@@ -200,8 +200,16 @@ function svara()
 		}
 		
 		if (rattSvar)
-			visaFraga ();
+			visaFraga();
 		else 
-			gameOver ("Fel svar! Försök igen...");
+			gameOver("Fel svar! Försök igen...");
+	}
+	
+	function equalsIgnoreCase(first, second) {
+		
+		return (first.toLowerCase() === second.toLowerCase()) ? true : false;
 	}
 }
+
+
+
