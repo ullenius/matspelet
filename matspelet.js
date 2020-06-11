@@ -7,7 +7,6 @@ Användaren får 10 sekunder per fråga att svara.
 */
 
 const svar = document.getElementById("svar");
-let resultatFinns = false;
 let level;
 
 window.onload = init();
@@ -22,13 +21,14 @@ function init() {
 function startaSpel()
 {
 	disableStartButton();
-	
-	if (resultatFinns === true)
-	{
-		resultatFinns = false;
-		document.getElementById("resultat").removeChild(textNodeResultat);
-	}
+	clearResult();
 	visaFraga();
+	
+	function clearResult() {
+		const result = document.getElementById("resultat");
+		result.textContent = undefined;
+	}
+	
 }
 
 function enableStartButton() {
@@ -140,7 +140,6 @@ function gameOver(meddelande) {
 	clearInterval(setIntervalID);
 	textNodeResultat = document.createTextNode(meddelande);
 	document.getElementById("resultat").appendChild(textNodeResultat);
-	resultatFinns = true;
 	spelStartat = false;
 }
 
