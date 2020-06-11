@@ -93,7 +93,7 @@ function init() {
 
 function getQuestion(level) {
 	
-	const questions = Object.create(null);
+	const questions = [];
 	questions[0] = fragorLevel1;
 	questions[1] = fragorLevel2;
 	questions[2] = fragorLevel3;
@@ -105,7 +105,7 @@ function getQuestion(level) {
 
 function getAnswer(level) {
 	
-	const answers = Object.create(null);
+	const answers = [];
 	answers[0] = svarFragorLevel1;
 	answers[1] = svarFragorLevel2;
 	answers[2] = svarFragorLevel3;
@@ -120,7 +120,7 @@ function startaSpel()
 {
 	if (!spelStartat)
 	{
-		if (resultatFinns)
+		if (resultatFinns === true)
 		{
 			resultatFinns = false;
 			document.getElementById ("resultat").removeChild(textNodeResultat);		
@@ -167,7 +167,7 @@ function tid()
 }
 
 //Återställer spelet och visar meddelande om varför man har misslyckats
-function gameOver (meddelande) {
+function gameOver(meddelande) {
 	
 	const clock = document.getElementById("klocka");
 	const question = document.getElementById("fraga");
