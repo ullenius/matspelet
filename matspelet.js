@@ -17,9 +17,9 @@ let fragorLevel3 = [];
 let fragorLevel4 = [];
 let fragorLevel5 = [];
 
-fragorLevel1[0] = "Från vilket land kommer såsen Béarnaise?";
-fragorLevel1[1] = "James Bond dricker ofta en drink gjord på gin och vermouth. Vad heter drinken?";
-fragorLevel1[2] = "Vad är huvudingrediensen i en omelett?";
+fragorLevel1.push("Från vilket land kommer såsen Béarnaise?");
+fragorLevel1.push("James Bond dricker ofta en drink gjord på gin och vermouth. Vad heter drinken?");
+fragorLevel1.push("Vad är huvudingrediensen i en omelett?");
 fragorLevel1[3] = "Vilken är världens dyraste krydda?";
 fragorLevel1[4] = "Vad kallas den tomatbaserade grönsakssåsen som ofta äts med tacos och nachos?";
 
@@ -89,24 +89,39 @@ function init() {
 	
 	displayTime("Tid kvar: Spel ej startat");
 	displayQuestion("Fråga 1: Spel ej startat");
+	enableStartButton();
 }
 
 //Starta "Matspelet". Initerar vissa styrvariabler och anropar visaFraga
 function startaSpel()
 {
-	if (!spelStartat)
+	disableStartButton();
+	
+	if (resultatFinns === true)
 	{
-		if (resultatFinns === true)
-		{
-			resultatFinns = false;
-			document.getElementById("resultat").removeChild(textNodeResultat);		
-		}
-
-		level = 0;
-		spelStartat = true;
-		visaFraga();
+		resultatFinns = false;
+		document.getElementById("resultat").removeChild(textNodeResultat);
 	}
+
+	level = 0;
+	spelStartat = true;
+	visaFraga();
 }
+
+function enableStartButton() {
+	startButtonEnabled(true);
+}
+
+function disableStartButton() {
+	startButtonEnabled(false);
+}
+
+function startButtonEnabled(state) {
+	
+	const startButton = document.getElementById("start");
+	startButton.disabled = !state;
+}
+
 
 //Visa nästa fråga i "Matspelet"
 function visaFraga()
@@ -150,7 +165,7 @@ function tid()
 {
 	displayTime("Tid kvar: " + tidKvar);
 	if (tidKvar === 0)
-		gameOver ("Tiden tog slut. Försök igen...");
+		gameOver("Tiden tog slut. Försök igen...");
 	
 	tidKvar--;
 }
@@ -158,7 +173,7 @@ function tid()
 //Läs in användarens svar och jämför det med svaret till aktuell fråga.
 function svara()
 {
-	if (spelStartat)
+	if (spelStartat === true)
 	{
 		clearInterval(setIntervalID);
 		var rattSvar = false;
@@ -204,13 +219,11 @@ function gameOver(meddelande) {
 	const clock = document.getElementById("klocka");
 	const question = document.getElementById("fraga");
 	
-	displayTime("Tid kvar: Spel ej startat");
-	displayQuestion("Fråga 1: Spel ej startat");
+	init();
 	
-	clearInterval (setIntervalID);
+	clearInterval(setIntervalID);
 	textNodeResultat = document.createTextNode(meddelande);
 	document.getElementById("resultat").appendChild(textNodeResultat);
 	resultatFinns = true;
 	spelStartat = false;
 }
-
