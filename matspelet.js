@@ -91,30 +91,6 @@ function init() {
 	displayQuestion("Fråga 1: Spel ej startat");
 }
 
-function getQuestion(level) {
-	
-	const questions = [];
-	questions[0] = fragorLevel1;
-	questions[1] = fragorLevel2;
-	questions[2] = fragorLevel3;
-	questions[3] = fragorLevel4;
-	questions[4] = fragorLevel5;
-	
-	return questions[level-1];
-}
-
-function getAnswer(level) {
-	
-	const answers = [];
-	answers[0] = svarFragorLevel1;
-	answers[1] = svarFragorLevel2;
-	answers[2] = svarFragorLevel3;
-	answers[3] = svarFragorLevel4;
-	answers[4] = svarFragorLevel5;
-	
-	return answers[level-1];
-}
-
 //Starta "Matspelet". Initerar vissa styrvariabler och anropar visaFraga
 function startaSpel()
 {
@@ -123,12 +99,12 @@ function startaSpel()
 		if (resultatFinns === true)
 		{
 			resultatFinns = false;
-			document.getElementById ("resultat").removeChild(textNodeResultat);		
+			document.getElementById("resultat").removeChild(textNodeResultat);		
 		}
 
 		level = 0;
 		spelStartat = true;
-		visaFraga ();
+		visaFraga();
 	}
 }
 
@@ -146,12 +122,25 @@ function visaFraga()
 	setIntervalID = setInterval (tid, 1000);
 }
 
+function getQuestion(level) {
+	
+	const questions = [];
+	questions[0] = fragorLevel1;
+	questions[1] = fragorLevel2;
+	questions[2] = fragorLevel3;
+	questions[3] = fragorLevel4;
+	questions[4] = fragorLevel5;
+	
+	return questions[level-1];
+}
+
 function displayQuestion(message) {
 	const question = document.getElementById("fraga");
 	question.textContent = message;
 }
 
-function displayTime(time) {
+function displayTime(time) 
+{
 	const timer = document.getElementById("klocka");
 	timer.textContent = time;
 }
@@ -164,6 +153,49 @@ function tid()
 		gameOver ("Tiden tog slut. Försök igen...");
 	
 	tidKvar--;
+}
+
+//Läs in användarens svar och jämför det med svaret till aktuell fråga.
+function svara()
+{
+	if (spelStartat)
+	{
+		clearInterval(setIntervalID);
+		var rattSvar = false;
+		
+		const answer = getAnswer(level);
+		if (equalsIgnoreCase(svar.value, answer[fragenummer]) === true) {
+			rattSvar = true;
+			
+			if (level === 5) {
+				gameOver("");
+				window.location.assign("pris.html");
+				return;
+			}
+		}
+		
+		if (rattSvar === true)
+			visaFraga();
+		else if (rattSvar === false)
+			gameOver("Fel svar! Försök igen...");
+	}
+	
+	function equalsIgnoreCase(first, second) {
+		
+		return (first.toLowerCase() === second.toLowerCase()) ? true : false;
+	}
+	
+	function getAnswer(level) {
+		
+		const answers = [];
+		answers[0] = svarFragorLevel1;
+		answers[1] = svarFragorLevel2;
+		answers[2] = svarFragorLevel3;
+		answers[3] = svarFragorLevel4;
+		answers[4] = svarFragorLevel5;
+		
+		return answers[level-1];
+	}
 }
 
 //Återställer spelet och visar meddelande om varför man har misslyckats
@@ -181,37 +213,4 @@ function gameOver(meddelande) {
 	resultatFinns = true;
 	spelStartat = false;
 }
-
-//Läs in användarens svar och jämför det med svaret till aktuell fråga.
-function svara()
-{
-	if (spelStartat)
-	{
-		clearInterval(setIntervalID);
-		var rattSvar = false;
-		
-		const answer = getAnswer(level);
-		if (equalsIgnoreCase(svar.value, answer[fragenummer]) === true) {
-			rattSvar = true;
-			
-			if (level === 5) {
-				gameOver ("");
-				window.location.assign("pris.html");
-				return;
-			}
-		}
-		
-		if (rattSvar === true)
-			visaFraga();
-		else if (rattSvar === false)
-			gameOver("Fel svar! Försök igen...");
-	}
-	
-	function equalsIgnoreCase(first, second) {
-		
-		return (first.toLowerCase() === second.toLowerCase()) ? true : false;
-	}
-}
-
-
 
