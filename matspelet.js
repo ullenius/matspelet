@@ -8,6 +8,7 @@ Användaren får 10 sekunder per fråga att svara.
 
 const svar = document.getElementById("svar");
 let resultatFinns = false;
+let level;
 
 window.onload = init();
 
@@ -91,28 +92,24 @@ function tid()
 	tidKvar--;
 }
 
-//Läs in användarens svar och jämför det med svaret till aktuell fråga.
 function svara()
 {
-		var rattSvar = false;
-		
 		const answer = getAnswer(level);
-		if (equalsIgnoreCase(svar.value, answer[fragenummer]) === true) {
-			rattSvar = true;
+		const rattSvar = equalsIgnoreCase(svar.value, answer[fragenummer]);
+		
+		if (rattSvar === true) {
+			clearInterval(setIntervalID);
+			visaFraga();
 			
 			if (level === 5) {
 				gameOver("");
 				window.location.assign("pris.html");
 				return;
 			}
-		
-		if (rattSvar === true) {
-			clearInterval(setIntervalID);
-			visaFraga();
 		}
 		else if (rattSvar === false)
 			gameOver("Fel svar! Försök igen...");
-	}
+
 	
 	function equalsIgnoreCase(first, second) {
 		
@@ -220,4 +217,3 @@ svarFragorLevel5[1] = "Öl";
 svarFragorLevel5[2] = "Mirin";
 svarFragorLevel5[3] = "Riesling";
 svarFragorLevel5[4] = "Chipotle";
-
