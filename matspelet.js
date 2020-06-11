@@ -8,7 +8,145 @@ Användaren får 10 sekunder per fråga att svara.
 
 const svar = document.getElementById("svar");
 let resultatFinns = false;
-let spelStartat = false;
+
+window.onload = init();
+
+function init() {
+	displayTime("Tid kvar: Spel ej startat");
+	displayQuestion("Fråga 1: Spel ej startat");
+	enableStartButton();
+	level = 0;
+}
+
+function startaSpel()
+{
+	disableStartButton();
+	
+	if (resultatFinns === true)
+	{
+		resultatFinns = false;
+		document.getElementById("resultat").removeChild(textNodeResultat);
+	}
+	visaFraga();
+}
+
+function enableStartButton() {
+	startButtonEnabled(true);
+}
+
+function disableStartButton() {
+	startButtonEnabled(false);
+}
+
+function startButtonEnabled(state) {
+	
+	const startButton = document.getElementById("start");
+	startButton.disabled = !state;
+}
+
+//Visa nästa fråga i "Matspelet"
+function visaFraga()
+{
+	fragenummer = Math.floor (Math.random() * ANTAL_FRAGOR_PER_LEVEL);
+	
+	level++;
+	svar.value = "";
+	
+	const question = getQuestion(level);
+	displayQuestion("Fråga " + level + ": " + question[fragenummer]);
+	tidKvar = 10;
+	setIntervalID = setInterval (tid, 1000);
+}
+
+function getQuestion(level) {
+	
+	const questions = [];
+	questions[0] = fragorLevel1;
+	questions[1] = fragorLevel2;
+	questions[2] = fragorLevel3;
+	questions[3] = fragorLevel4;
+	questions[4] = fragorLevel5;
+	
+	return questions[level-1];
+}
+
+function displayQuestion(message) {
+	const question = document.getElementById("fraga");
+	question.textContent = message;
+}
+
+function displayTime(time) 
+{
+	const timer = document.getElementById("klocka");
+	timer.textContent = time;
+}
+
+//Styr spelets klocka. Visar en nedräkning på 10 sekunder per fråga 
+function tid()
+{
+	displayTime("Tid kvar: " + tidKvar);
+	if (tidKvar === 0)
+		gameOver("Tiden tog slut. Försök igen...");
+	
+	tidKvar--;
+}
+
+//Läs in användarens svar och jämför det med svaret till aktuell fråga.
+function svara()
+{
+		var rattSvar = false;
+		
+		const answer = getAnswer(level);
+		if (equalsIgnoreCase(svar.value, answer[fragenummer]) === true) {
+			rattSvar = true;
+			
+			if (level === 5) {
+				gameOver("");
+				window.location.assign("pris.html");
+				return;
+			}
+		
+		if (rattSvar === true) {
+			clearInterval(setIntervalID);
+			visaFraga();
+		}
+		else if (rattSvar === false)
+			gameOver("Fel svar! Försök igen...");
+	}
+	
+	function equalsIgnoreCase(first, second) {
+		
+		return (first.toLowerCase() === second.toLowerCase()) ? true : false;
+	}
+	
+	function getAnswer(level) {
+		
+		const answers = [];
+		answers[0] = svarFragorLevel1;
+		answers[1] = svarFragorLevel2;
+		answers[2] = svarFragorLevel3;
+		answers[3] = svarFragorLevel4;
+		answers[4] = svarFragorLevel5;
+		
+		return answers[level-1];
+	}
+}
+
+//Återställer spelet och visar meddelande om varför man har misslyckats
+function gameOver(meddelande) {
+	
+	const clock = document.getElementById("klocka");
+	const question = document.getElementById("fraga");
+	
+	init();
+	
+	clearInterval(setIntervalID);
+	textNodeResultat = document.createTextNode(meddelande);
+	document.getElementById("resultat").appendChild(textNodeResultat);
+	resultatFinns = true;
+	spelStartat = false;
+}
+
 const ANTAL_FRAGOR_PER_LEVEL = 5;
 
 let fragorLevel1 = [];
@@ -83,144 +221,3 @@ svarFragorLevel5[2] = "Mirin";
 svarFragorLevel5[3] = "Riesling";
 svarFragorLevel5[4] = "Chipotle";
 
-window.onload = init();
-
-function init() {
-	displayTime("Tid kvar: Spel ej startat");
-	displayQuestion("Fråga 1: Spel ej startat");
-	enableStartButton();
-	level = 0;
-}
-
-function startaSpel()
-{
-	disableStartButton();
-	
-	if (resultatFinns === true)
-	{
-		resultatFinns = false;
-		document.getElementById("resultat").removeChild(textNodeResultat);
-	}
-	
-	spelStartat = true;
-	visaFraga();
-}
-
-function enableStartButton() {
-	startButtonEnabled(true);
-}
-
-function disableStartButton() {
-	startButtonEnabled(false);
-}
-
-function startButtonEnabled(state) {
-	
-	const startButton = document.getElementById("start");
-	startButton.disabled = !state;
-}
-
-//Visa nästa fråga i "Matspelet"
-function visaFraga()
-{
-	fragenummer = Math.floor (Math.random() * ANTAL_FRAGOR_PER_LEVEL);
-	
-	level++;
-	svar.value = "";
-	
-	const question = getQuestion(level);
-	displayQuestion("Fråga " + level + ": " + question[fragenummer]);
-	tidKvar = 10;
-	setIntervalID = setInterval (tid, 1000);
-}
-
-function getQuestion(level) {
-	
-	const questions = [];
-	questions[0] = fragorLevel1;
-	questions[1] = fragorLevel2;
-	questions[2] = fragorLevel3;
-	questions[3] = fragorLevel4;
-	questions[4] = fragorLevel5;
-	
-	return questions[level-1];
-}
-
-function displayQuestion(message) {
-	const question = document.getElementById("fraga");
-	question.textContent = message;
-}
-
-function displayTime(time) 
-{
-	const timer = document.getElementById("klocka");
-	timer.textContent = time;
-}
-
-//Styr spelets klocka. Visar en nedräkning på 10 sekunder per fråga 
-function tid()
-{
-	displayTime("Tid kvar: " + tidKvar);
-	if (tidKvar === 0)
-		gameOver("Tiden tog slut. Försök igen...");
-	
-	tidKvar--;
-}
-
-//Läs in användarens svar och jämför det med svaret till aktuell fråga.
-function svara()
-{
-	if (spelStartat === true)
-	{
-		clearInterval(setIntervalID);
-		var rattSvar = false;
-		
-		const answer = getAnswer(level);
-		if (equalsIgnoreCase(svar.value, answer[fragenummer]) === true) {
-			rattSvar = true;
-			
-			if (level === 5) {
-				gameOver("");
-				window.location.assign("pris.html");
-				return;
-			}
-		}
-		
-		if (rattSvar === true)
-			visaFraga();
-		else if (rattSvar === false)
-			gameOver("Fel svar! Försök igen...");
-	}
-	
-	function equalsIgnoreCase(first, second) {
-		
-		return (first.toLowerCase() === second.toLowerCase()) ? true : false;
-	}
-	
-	function getAnswer(level) {
-		
-		const answers = [];
-		answers[0] = svarFragorLevel1;
-		answers[1] = svarFragorLevel2;
-		answers[2] = svarFragorLevel3;
-		answers[3] = svarFragorLevel4;
-		answers[4] = svarFragorLevel5;
-		
-		return answers[level-1];
-	}
-}
-
-//Återställer spelet och visar meddelande om varför man har misslyckats
-function gameOver(meddelande) {
-	
-	const clock = document.getElementById("klocka");
-	const question = document.getElementById("fraga");
-	
-	init();
-	
-	clearInterval(setIntervalID);
-	textNodeResultat = document.createTextNode(meddelande);
-	document.getElementById("resultat").appendChild(textNodeResultat);
-	resultatFinns = true;
-	spelStartat = false;
-}
