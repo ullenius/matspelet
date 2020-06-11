@@ -86,13 +86,12 @@ svarFragorLevel5[4] = "Chipotle";
 window.onload = init();
 
 function init() {
-	
 	displayTime("Tid kvar: Spel ej startat");
 	displayQuestion("Fråga 1: Spel ej startat");
 	enableStartButton();
+	level = 0;
 }
 
-//Starta "Matspelet". Initerar vissa styrvariabler och anropar visaFraga
 function startaSpel()
 {
 	disableStartButton();
@@ -102,8 +101,7 @@ function startaSpel()
 		resultatFinns = false;
 		document.getElementById("resultat").removeChild(textNodeResultat);
 	}
-
-	level = 0;
+	
 	spelStartat = true;
 	visaFraga();
 }
@@ -121,7 +119,6 @@ function startButtonEnabled(state) {
 	const startButton = document.getElementById("start");
 	startButton.disabled = !state;
 }
-
 
 //Visa nästa fråga i "Matspelet"
 function visaFraga()
