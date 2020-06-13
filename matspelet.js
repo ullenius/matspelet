@@ -45,10 +45,11 @@ function startButtonEnabled(state) {
 function visaFraga()
 {
 	let counter = 10;
-	fragenummer = Math.floor (Math.random() * ANTAL_FRAGOR_PER_LEVEL); // FIXME global variable... hoisting
 	level++;
 	
 	const question = getQuestion(level);
+	fragenummer = Math.floor (Math.random() * question.length); // FIXME global variable... hoisting
+	
 	displayQuestion("Fråga " + level + ": " + question[fragenummer]);
 	
 	setIntervalID = setInterval(countdown, 1000); // hoisting... again!
@@ -102,9 +103,9 @@ function svara()
 				return;
 			}
 		}
-		else if (rattSvar === false)
+		else if (rattSvar === false) {
 			gameOver("Fel svar! Försök igen...");
-
+		}
 	
 	function equalsIgnoreCase(first, second) {
 		
@@ -132,8 +133,6 @@ function gameOver(meddelande) {
 	textNodeResultat = document.createTextNode(meddelande);
 	document.getElementById("resultat").appendChild(textNodeResultat);
 }
-
-const ANTAL_FRAGOR_PER_LEVEL = 5;
 
 let fragorLevel1 = [];
 let fragorLevel2 = [];
