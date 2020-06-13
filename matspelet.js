@@ -28,7 +28,6 @@ function startaSpel()
 		const result = document.getElementById("resultat");
 		result.textContent = undefined;
 	}
-	
 }
 
 function enableStartButton() {
@@ -40,23 +39,28 @@ function disableStartButton() {
 }
 
 function startButtonEnabled(state) {
-	
 	const startButton = document.getElementById("start");
 	startButton.disabled = !state;
 }
 
-//Visa nästa fråga i "Matspelet"
 function visaFraga()
 {
-	fragenummer = Math.floor (Math.random() * ANTAL_FRAGOR_PER_LEVEL);
-	
+	let counter = 10;
+	fragenummer = Math.floor (Math.random() * ANTAL_FRAGOR_PER_LEVEL); // FIXME global variable... hoisting
 	level++;
 	svar.value = "";
 	
 	const question = getQuestion(level);
 	displayQuestion("Fråga " + level + ": " + question[fragenummer]);
-	tidKvar = 10;
-	setIntervalID = setInterval (tid, 1000);
+	
+	setIntervalID = setInterval(tid, 1000); // hoisting... again!
+	
+	function tid()
+	{
+		displayTime("Tid kvar: " + counter--);
+		if (counter === 0)
+			gameOver("Tiden tog slut. Försök igen...");
+	}
 }
 
 function getQuestion(level) {
@@ -80,16 +84,6 @@ function displayTime(time)
 {
 	const timer = document.getElementById("klocka");
 	timer.textContent = time;
-}
-
-//Styr spelets klocka. Visar en nedräkning på 10 sekunder per fråga 
-function tid()
-{
-	displayTime("Tid kvar: " + tidKvar);
-	if (tidKvar === 0)
-		gameOver("Tiden tog slut. Försök igen...");
-	
-	tidKvar--;
 }
 
 function svara()
