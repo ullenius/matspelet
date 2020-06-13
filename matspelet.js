@@ -97,7 +97,7 @@ function svara()
 			clearInterval(setIntervalID);
 			visaFraga();
 			
-			if (level === 5) {
+			if (level === answer.length) { // FIXME... fix data structure
 				gameOver("");
 				window.location.assign("pris.html");
 				return;
@@ -108,7 +108,6 @@ function svara()
 		}
 	
 	function equalsIgnoreCase(first, second) {
-		
 		return (first.toLowerCase() === second.toLowerCase()) ? true : false;
 	}
 	
@@ -125,12 +124,11 @@ function svara()
 	}
 }
 
-//Återställer spelet och visar meddelande om varför man har misslyckats
 function gameOver(meddelande) {
 	init();
 	
 	clearInterval(setIntervalID);
-	textNodeResultat = document.createTextNode(meddelande);
+	const textNodeResultat = document.createTextNode(meddelande);
 	document.getElementById("resultat").appendChild(textNodeResultat);
 }
 
