@@ -6,7 +6,6 @@ I "Matspelet" får användaren svara på fem frågor om mat.
 Användaren får 10 sekunder per fråga att svara.
 */
 
-const svar = document.getElementById("svar");
 let level;
 
 window.onload = init();
@@ -48,7 +47,6 @@ function visaFraga()
 	let counter = 10;
 	fragenummer = Math.floor (Math.random() * ANTAL_FRAGOR_PER_LEVEL); // FIXME global variable... hoisting
 	level++;
-	svar.value = "";
 	
 	const question = getQuestion(level);
 	displayQuestion("Fråga " + level + ": " + question[fragenummer]);
@@ -58,8 +56,10 @@ function visaFraga()
 	function countdown()
 	{
 		displayTime("Tid kvar: " + counter--);
-		if (counter === 0)
+		if (counter === 0) {
+			clearInterval(setIntervalID);
 			gameOver("Tiden tog slut. Försök igen...");
+		}
 	}
 }
 
@@ -88,10 +88,12 @@ function displayTime(time)
 
 function svara()
 {
+		const svar = document.getElementById("svar");
 		const answer = getAnswer(level);
 		const rattSvar = equalsIgnoreCase(svar.value, answer[fragenummer]);
 		
 		if (rattSvar === true) {
+			svar.value = "";
 			clearInterval(setIntervalID);
 			visaFraga();
 			
