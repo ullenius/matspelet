@@ -53,9 +53,9 @@ function visaFraga()
 	const question = getQuestion(level);
 	displayQuestion("Fråga " + level + ": " + question[fragenummer]);
 	
-	setIntervalID = setInterval(tid, 1000); // hoisting... again!
+	setIntervalID = setInterval(countdown, 1000); // hoisting... again!
 	
-	function tid()
+	function countdown()
 	{
 		displayTime("Tid kvar: " + counter--);
 		if (counter === 0)
