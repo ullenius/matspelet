@@ -53,6 +53,17 @@ function visaFraga()
 	
 	setIntervalID = setInterval(countdown, 1000); // hoisting... again!
 	
+	function getQuestion(level) {
+		const questions = [];
+		questions[0] = fragorLevel1;
+		questions[1] = fragorLevel2;
+		questions[2] = fragorLevel3;
+		questions[3] = fragorLevel4;
+		questions[4] = fragorLevel5;
+		
+		return questions[level-1];
+	}
+	
 	function countdown()
 	{
 		displayTime("Tid kvar: " + counter--);
@@ -61,18 +72,6 @@ function visaFraga()
 			gameOver("Tiden tog slut. Försök igen...");
 		}
 	}
-}
-
-function getQuestion(level) {
-	
-	const questions = [];
-	questions[0] = fragorLevel1;
-	questions[1] = fragorLevel2;
-	questions[2] = fragorLevel3;
-	questions[3] = fragorLevel4;
-	questions[4] = fragorLevel5;
-	
-	return questions[level-1];
 }
 
 function displayQuestion(message) {
@@ -127,16 +126,11 @@ function svara()
 
 //Återställer spelet och visar meddelande om varför man har misslyckats
 function gameOver(meddelande) {
-	
-	const clock = document.getElementById("klocka");
-	const question = document.getElementById("fraga");
-	
 	init();
 	
 	clearInterval(setIntervalID);
 	textNodeResultat = document.createTextNode(meddelande);
 	document.getElementById("resultat").appendChild(textNodeResultat);
-	spelStartat = false;
 }
 
 const ANTAL_FRAGOR_PER_LEVEL = 5;
