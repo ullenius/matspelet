@@ -8,7 +8,7 @@ Användaren får 10 sekunder per fråga att svara.
 
 let level;
 
-window.onload = init();
+window.onload = demo();
 
 function init() {
 	displayTime("Tid kvar: Spel ej startat");
@@ -51,7 +51,6 @@ function visaFraga()
 	fragenummer = Math.floor (Math.random() * question.length); // FIXME global variable... hoisting
 	
 	displayQuestion("Fråga " + level + ": " + question[fragenummer]);
-	
 	setIntervalID = setInterval(countdown, 1000); // hoisting... again!
 	
 	function getQuestion(level) {
@@ -98,7 +97,7 @@ function svara()
 			visaFraga();
 			
 			if (level === answer.length) { // FIXME... fix data structure
-				gameOver("");
+				gameOver();
 				window.location.assign("pris.html");
 				return;
 			}
@@ -125,6 +124,8 @@ function svara()
 }
 
 function gameOver(meddelande) {
+	
+	meddelande = (meddelande === undefined) ? "" : meddelande;
 	init();
 	
 	clearInterval(setIntervalID);
@@ -144,11 +145,113 @@ fragorLevel1.push("Vad är huvudingrediensen i en omelett?");
 fragorLevel1[3] = "Vilken är världens dyraste krydda?";
 fragorLevel1[4] = "Vad kallas den tomatbaserade grönsakssåsen som ofta äts med tacos och nachos?";
 
-fragorLevel2[0] = "Vad heter en känd italiensk sås som innehåller basilika, vitlök, olivolja, parmesan och pinjenétter?";
-fragorLevel2[1] = "Vad heter pizzan som bara innehåller tomatsås och ost (och ibland även basilika)?";
-fragorLevel2[2] = "Vilken typ av mat är en salsiccia?";
-fragorLevel2[3] = "Vad kallas den asiatiska sojabönsmassan som är proteinrik och nästan smaklös?";
-fragorLevel2[4] = "Från vilken del av Sverige härstammar saffranspannkaka?";
+function demo() {
+	
+	const questions = [
+		
+		{
+			"level" : 1,
+			"question" : "Från vilket land kommer såsen Béarnaise?",
+			"answer" : "Frankrike"
+		},
+		{
+			"level" : 1,
+			"question" : "James Bond dricker ofta en drink gjord på gin och vermouth. Vad heter drinken?",
+			"answer" : "Dry Martini"
+		},
+		{
+			"level" : 1,
+			"question" : "Vad är huvudingrediensen i en omelett?",
+			"answer" : "Ägg"
+		},
+		{
+			"level" : 1,
+			"question" : "Vilken är världens dyraste krydda?",
+			"answer" : "Saffran"
+		},
+		{
+			"level" : 1,
+			"question" : "Vad kallas den tomatbaserade grönsakssåsen som ofta äts med tacos och nachos?",
+			"answer" : "Salsa"
+		},
+		{
+			"level" : 2,
+			"question" : "Vad heter en känd italiensk sås som innehåller basilika, vitlök, olivolja, parmesan och pinjenétter?",
+			"answer" : "Pesto"
+		},
+		{
+			"level" : 2,
+			"question" : "Vad heter pizzan som bara innehåller tomatsås och ost (och ibland även basilika)?",
+			"answer" : "Margherita"
+		},
+		{
+			"level" : 2,
+			"question" : "Vilken typ av mat är en salsiccia?",
+			"answer" : "Korv"
+		},
+		{
+			"level" : 2,
+			"question" : "Vad kallas den asiatiska sojabönsmassan som är proteinrik och nästan smaklös?",
+			"answer" : "Tofu"
+		},
+		{
+			"level" : 2,
+			"question" : "Från vilken del av Sverige härstammar saffranspannkaka?",
+			"answer" : "Gotland"
+		}
+	];
+	
+	
+/*
+ * 
+ * 1. Get all levels from question array... (creates a Set)
+ * 2. Creates an unsorted array of key values based on the Set-object
+ * 3. Sorts the array using comparator
+ * 
+ */	
+	const mySet = getLevels(questions);
+	console.log(mySet);
+	
+	const sortedLevels = Object.keys(mySet);
+	sortedLevels.sort(function(a, b) {
+		return a-b;
+	});
+	console.log("sorted levels:");
+	console.log(sortedLevels);
+	
+	sortedLevels.forEach(function(element) {
+		
+		let level = [];
+		
+		questions.forEach(function(question) {
+			if (question.level === Number(element)) {
+				
+				level.push(question);
+				//console.log(question);
+			}
+		});
+		console.log(level.length);
+		// print random question
+		const randomQuestion = Math.floor (Math.random() * level.length);
+		console.log(level[randomQuestion]);
+		
+	});
+	
+	
+	
+	
+}
+
+function getLevels(questions) {
+	
+	const mySet = {};
+	questions.forEach(function(element) {
+		mySet[element.level] = true;
+	});
+	Object.freeze(mySet);
+	return mySet;
+}
+
 
 fragorLevel3[0] = "Vilken grönsak är viktig i en moussaka?";
 fragorLevel3[1] = "Vad heter rötten från Skottland som görs med lever, inälvor, lök och havregryn?";
