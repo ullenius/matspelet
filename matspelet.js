@@ -225,7 +225,56 @@ function demo() {
 			"question" : "Vilken krydda ger currypulver dess gula färg?",
 			"answer" : "Gurkmeja"
 		},
-		
+		{
+			"level" : 4,
+			"question" : "Matkedjan KFC är specialiserade på snabbmat av en viss typ av djur. Vilket?",
+			"answer" : "Kyckling"
+		},
+		{
+			"level" : 4,
+			"question" : "Paul Giamattis karaktär i filmen Sideways är förtjust i en viss typ av vindruva. Vilken?",
+			"answer" : "Pinot Noir"
+		},
+		{
+			"level" : 4,
+			"question" : "Vilken typ av öl görs det mest av i England?",
+			"answer" : "Ale"
+		},
+		{
+			"level" : 4,
+			"question" : "Vilken ingrediens, förutom skinka, har huvudrollen i en Quiche Lorraine?",
+			"answer" : "Ost"
+		},
+		{
+			"level" : 4,
+			"question" : "Vad kallas den inlagda ingefäran som brukar ätas i samband med sushi?",
+			"answer" : "Gari"
+		},
+		{
+			"level" : 5,
+			"question" : "Vad betyder det hindiska ordet masala?",
+			"answer" : "Kryddblandning"
+		},
+		{
+			"level" : 5,
+			"question" : "Vilken typ av dryck är geuze?,
+			"answer" : "Öl"
+		},
+		{
+			"level" : 5,
+			"question" : "Vad är det riktiga namnet för söt matlagningssake?",
+			"answer" : "Mirin"
+		},
+		{
+			"level" : 5,
+			"question" : "Vilken grön druva ger viner som passar till het mat med asiatiska inslag?",
+			"answer" : "Riesling"
+		},
+		{
+			"level" : 5,
+			"question" : "Vad kallas jalapñeo som har blivit rökt och torkad?",
+			"answer" : "Chipotle"
+		}
 	];
 	
 /*
@@ -273,33 +322,3 @@ function getLevels(questions) {
 	Object.freeze(mySet);
 	return mySet;
 }
-
-fragorLevel4[0] = "Matkedjan KFC är specialiserade på snabbmat av en viss typ av djur. Vilket?";
-fragorLevel4[1] = "Paul Giamattis karaktär i filmen Sideways är förtjust i en viss typ av vindruva. Vilken?";
-fragorLevel4[2] = "Vilken typ av öl görs det mest av i England?";
-fragorLevel4[3] = "Vilken ingrediens, förutom skinka, har huvudrollen i en Quiche Lorraine?";
-fragorLevel4[4] = "Vad kallas den inlagda ingefäran som brukar ätas i samband med sushi?";
-
-fragorLevel5[0] = "Vad betyder det hindiska ordet masala?";
-fragorLevel5[1] = "Vilken typ av dryck är geuze?";
-fragorLevel5[2] = "Vad är det riktiga namnet för söt matlagningssake?";
-fragorLevel5[3] = "Vilken grön druva ger viner som passar till het mat med asiatiska inslag?";
-fragorLevel5[4] = "Vad kallas jalapñeo som har blivit rökt och torkad?";
-
-svarFragorLevel1 = [];
-svarFragorLevel2 = [];
-svarFragorLevel3 = [];
-svarFragorLevel4 = [];
-svarFragorLevel5 = [];
-
-svarFragorLevel4[0] = "Kyckling";
-svarFragorLevel4[1] = "Pinot Noir";
-svarFragorLevel4[2] = "Ale";
-svarFragorLevel4[3] = "Ost";
-svarFragorLevel4[4] = "Gari";
-
-svarFragorLevel5[0] = "Kryddblandning";
-svarFragorLevel5[1] = "Öl";
-svarFragorLevel5[2] = "Mirin";
-svarFragorLevel5[3] = "Riesling";
-svarFragorLevel5[4] = "Chipotle";
