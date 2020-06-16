@@ -199,8 +199,34 @@ function demo() {
 			"question" : "Från vilken del av Sverige härstammar saffranspannkaka?",
 			"answer" : "Gotland"
 		}
+		
+		{
+			"level" : 3,
+			"question" : "Vilken grönsak är viktig i en moussaka?",
+			"answer" : "Aubergine"
+		},
+		{
+			"level" : 3,
+			"question" : "Vad heter rötten från Skottland som görs med lever, inälvor, lök och havregryn?",
+			"answer" : "Haggis"
+		},
+		{
+			"level" : 3,
+			"question" : "Vilken är huvudingrediensen i kroppkakor?",
+			"answer" : "Potatis"
+		},
+		{
+			"level" : 3,
+			"question" : "Från vilket djurs mjölk gör man chévreost?",
+			"answer" : "Get"
+		},
+		{
+			"level" : 3,
+			"question" : "Vilken krydda ger currypulver dess gula färg?",
+			"answer" : "Gurkmeja"
+		},
+		
 	];
-	
 	
 /*
  * 
@@ -214,7 +240,7 @@ function demo() {
 	
 	const sortedLevels = Object.keys(mySet);
 	sortedLevels.sort(function(a, b) {
-		return a-b;
+		return a - b;
 	});
 	console.log("sorted levels:");
 	console.log(sortedLevels);
@@ -236,10 +262,6 @@ function demo() {
 		console.log(level[randomQuestion]);
 		
 	});
-	
-	
-	
-	
 }
 
 function getLevels(questions) {
@@ -251,13 +273,6 @@ function getLevels(questions) {
 	Object.freeze(mySet);
 	return mySet;
 }
-
-
-fragorLevel3[0] = "Vilken grönsak är viktig i en moussaka?";
-fragorLevel3[1] = "Vad heter rötten från Skottland som görs med lever, inälvor, lök och havregryn?";
-fragorLevel3[2] = "Vilken är huvudingrediensen i kroppkakor?";
-fragorLevel3[3] = "Från vilket djurs mjölk gör man chévreost?";
-fragorLevel3[4] = "Vilken krydda ger currypulver dess gula färg?";
 
 fragorLevel4[0] = "Matkedjan KFC är specialiserade på snabbmat av en viss typ av djur. Vilket?";
 fragorLevel4[1] = "Paul Giamattis karaktär i filmen Sideways är förtjust i en viss typ av vindruva. Vilken?";
@@ -276,24 +291,6 @@ svarFragorLevel2 = [];
 svarFragorLevel3 = [];
 svarFragorLevel4 = [];
 svarFragorLevel5 = [];
-
-svarFragorLevel1[0] = "Frankrike";
-svarFragorLevel1[1] = "Dry Martini";
-svarFragorLevel1[2] = "Ägg";
-svarFragorLevel1[3] = "Saffran";
-svarFragorLevel1[4] = "Salsa";
-
-svarFragorLevel2[0] = "Pesto";
-svarFragorLevel2[1] = "Margherita";
-svarFragorLevel2[2] = "Korv";
-svarFragorLevel2[3] = "Tofu";
-svarFragorLevel2[4] = "Gotland";
-
-svarFragorLevel3[0] = "Aubergine";
-svarFragorLevel3[1] = "Haggis";
-svarFragorLevel3[2] = "Potatis";
-svarFragorLevel3[3] = "Get";
-svarFragorLevel3[4] = "Gurkmeja";
 
 svarFragorLevel4[0] = "Kyckling";
 svarFragorLevel4[1] = "Pinot Noir";
