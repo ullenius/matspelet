@@ -201,28 +201,34 @@ function demo() {
 		}
 	];
 	
-	const levelOne = questions.filter(function(element) {
-		if (element.level === 1)
-			return true;
-	});
-	console.log(levelOne);
-	console.log(levelOne.length);
 	
+/*
+ * 
+ * 1. Get all levels from question array... (creates a Set)
+ * 2. Creates an unsorted array of key values based on the Set-object
+ * 3. Sorts the array using comparator
+ * 
+ */	
 	const mySet = getLevels(questions);
 	console.log(mySet);
+	
+	const sortedLevels = Object.entries(mySet);
+	sortedLevels.sort(function(a, b) {
+		return a-b
+	});
+	console.log(sortedLevels);
 	
 }
 
 function getLevels(questions) {
 	
-	const mySet = Object.create(null);
+	const mySet = {};
 	questions.forEach(function(element) {
 		mySet[element.level] = true;
 	});
 	Object.freeze(mySet);
 	return mySet;
 }
-
 
 
 fragorLevel3[0] = "Vilken grönsak är viktig i en moussaka?";
