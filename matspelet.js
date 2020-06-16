@@ -212,11 +212,24 @@ function demo() {
 	const mySet = getLevels(questions);
 	console.log(mySet);
 	
-	const sortedLevels = Object.entries(mySet);
+	const sortedLevels = Object.keys(mySet);
 	sortedLevels.sort(function(a, b) {
-		return a-b
+		return a-b;
 	});
+	console.log("sorted levels:");
 	console.log(sortedLevels);
+	
+	sortedLevels.forEach(function(element) {
+		
+		questions.forEach(function(question) {
+			if (question.level === Number(element)) {
+				console.log(question);
+			}
+		});
+	});
+	
+	
+	
 	
 }
 
