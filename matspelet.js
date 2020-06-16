@@ -221,11 +221,20 @@ function demo() {
 	
 	sortedLevels.forEach(function(element) {
 		
+		let level = [];
+		
 		questions.forEach(function(question) {
 			if (question.level === Number(element)) {
-				console.log(question);
+				
+				level.push(question);
+				//console.log(question);
 			}
 		});
+		console.log(level.length);
+		// print random question
+		const randomQuestion = Math.floor (Math.random() * level.length);
+		console.log(level[randomQuestion]);
+		
 	});
 	
 	
