@@ -1,4 +1,4 @@
-const questions = [
+export const questions = [
 	{
 		"level" : 1,
 		"question" : "Från vilket land kommer såsen Béarnaise?",
@@ -126,5 +126,3 @@ const questions = [
 		"answer" : "Chipotle"
 	},
 ];
-Object.freeze(questions);
-export default questions;
