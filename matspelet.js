@@ -152,13 +152,6 @@ function getRandomQuestions() {
 		}
 	];
 	
-/*
- * 
- * 1. Get all levels from question array... (creates a Set)
- * 2. Creates an unsorted array of key values based on the Set-object
- * 3. Sorts the array using comparator
- * 
- */	
 	const mySet = getLevels(questions);
 	const sortedLevels = sortLevels(mySet);
 	let randomQuestions = [];
@@ -172,14 +165,9 @@ function getRandomQuestions() {
 				level.push(question);
 			}
 		});
-		console.log(level.length);
-		// print random question
 		const rng = Math.floor (Math.random() * level.length);
 		randomQuestions.push(level[rng]);
 	});
-	console.log("finished array = " + randomQuestions.length);
-	console.log(randomQuestions);
-	
 	return randomQuestions;
 }
 
@@ -198,8 +186,6 @@ function sortLevels(unsortedSet) {
 	sortedLevels.sort(function(a, b) {
 		return a - b;
 	});
-	console.log("sorted levels:");
-	console.log(sortedLevels);
 	return sortedLevels;
 }
 
