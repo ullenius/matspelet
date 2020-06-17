@@ -17,8 +17,6 @@ function init() {
 	
 	console.log("random questions = ");
 	console.log(randomQuestions);
-	
-	currentQuestion = undefined;
 }
 
 function getRandomQuestions() {
@@ -283,12 +281,12 @@ function svara()
 	
 }
 
-function gameOver(meddelande) {
+function gameOver(message) {
 	
-	meddelande = (meddelande === undefined) ? "" : meddelande;
+	message = (message === undefined) ? "" : message;
 	init();
 	
 	clearInterval(setIntervalID);
-	const textNodeResultat = document.createTextNode(meddelande);
+	const textNodeResultat = document.createTextNode(message);
 	document.getElementById("resultat").appendChild(textNodeResultat);
 }
