@@ -6,149 +6,24 @@ I "Matspelet" får användaren svara på fem frågor om mat.
 Användaren får 10 sekunder per fråga att svara.
 */
 
-let level;
-
-window.onload = demo();
+let randomQuestions;
+window.onload = init();
 
 function init() {
 	displayTime("Tid kvar: Spel ej startat");
 	displayQuestion("Fråga 1: Spel ej startat");
 	enableStartButton();
-	level = 0;
-}
-
-function startaSpel()
-{
-	disableStartButton();
-	clearResult();
-	visaFraga();
+	randomQuestions = getRandomQuestions();
 	
-	function clearResult() {
-		const result = document.getElementById("resultat");
-		result.textContent = undefined;
-	}
-}
-
-function enableStartButton() {
-	startButtonEnabled(true);
-}
-
-function disableStartButton() {
-	startButtonEnabled(false);
-}
-
-function startButtonEnabled(state) {
-	const startButton = document.getElementById("start");
-	startButton.disabled = !state;
-}
-
-function visaFraga()
-{
-	let counter = 10;
-	level++;
+	console.log("random questions = ");
+	console.log(randomQuestions);
 	
-	const question = getQuestion(level);
-	fragenummer = Math.floor (Math.random() * question.length); // FIXME global variable... hoisting
-	
-	displayQuestion("Fråga " + level + ": " + question[fragenummer]);
-	setIntervalID = setInterval(countdown, 1000); // hoisting... again!
-	
-	function getQuestion(level) {
-		const questions = [];
-		questions[0] = fragorLevel1;
-		questions[1] = fragorLevel2;
-		questions[2] = fragorLevel3;
-		questions[3] = fragorLevel4;
-		questions[4] = fragorLevel5;
-		
-		return questions[level-1];
-	}
-	
-	function countdown()
-	{
-		displayTime("Tid kvar: " + counter--);
-		if (counter === 0) {
-			clearInterval(setIntervalID);
-			gameOver("Tiden tog slut. Försök igen...");
-		}
-	}
+	currentQuestion = undefined;
 }
 
-function displayQuestion(message) {
-	const question = document.getElementById("fraga");
-	question.textContent = message;
-}
-
-function displayTime(time) 
-{
-	const timer = document.getElementById("klocka");
-	timer.textContent = time;
-}
-
-function svara()
-{
-		const svar = document.getElementById("svar");
-		const answer = getAnswer(level);
-		const rattSvar = equalsIgnoreCase(svar.value, answer[fragenummer]);
-		
-		if (rattSvar === true) {
-			svar.value = "";
-			clearInterval(setIntervalID);
-			visaFraga();
-			
-			if (level === answer.length) { // FIXME... fix data structure
-				gameOver();
-				window.location.assign("pris.html");
-				return;
-			}
-		}
-		else if (rattSvar === false) {
-			gameOver("Fel svar! Försök igen...");
-		}
-	
-	function equalsIgnoreCase(first, second) {
-		return (first.toLowerCase() === second.toLowerCase()) ? true : false;
-	}
-	
-	function getAnswer(level) {
-		
-		const answers = [];
-		answers[0] = svarFragorLevel1;
-		answers[1] = svarFragorLevel2;
-		answers[2] = svarFragorLevel3;
-		answers[3] = svarFragorLevel4;
-		answers[4] = svarFragorLevel5;
-		
-		return answers[level-1];
-	}
-}
-
-function gameOver(meddelande) {
-	
-	meddelande = (meddelande === undefined) ? "" : meddelande;
-	init();
-	
-	clearInterval(setIntervalID);
-	const textNodeResultat = document.createTextNode(meddelande);
-	document.getElementById("resultat").appendChild(textNodeResultat);
-}
-
-let fragorLevel1 = [];
-let fragorLevel2 = [];
-let fragorLevel3 = [];
-let fragorLevel4 = [];
-let fragorLevel5 = [];
-
-fragorLevel1.push("Från vilket land kommer såsen Béarnaise?");
-fragorLevel1.push("James Bond dricker ofta en drink gjord på gin och vermouth. Vad heter drinken?");
-fragorLevel1.push("Vad är huvudingrediensen i en omelett?");
-fragorLevel1[3] = "Vilken är världens dyraste krydda?";
-fragorLevel1[4] = "Vad kallas den tomatbaserade grönsakssåsen som ofta äts med tacos och nachos?";
-
-function demo() {
+function getRandomQuestions() {
 	
 	const questions = [
-		
 		{
 			"level" : 1,
 			"question" : "Från vilket land kommer såsen Béarnaise?",
@@ -176,7 +51,7 @@ function demo() {
 		},
 		{
 			"level" : 2,
-			"question" : "Vad heter en känd italiensk sås som innehåller basilika, vitlök, olivolja, parmesan och pinjenétter?",
+			"question" : "Vad heter en känd italiensk sås som innehåller basilika, vitlök, olivolja, parmesan och pinjenötter?",
 			"answer" : "Pesto"
 		},
 		{
@@ -198,7 +73,7 @@ function demo() {
 			"level" : 2,
 			"question" : "Från vilken del av Sverige härstammar saffranspannkaka?",
 			"answer" : "Gotland"
-		}
+		},
 		
 		{
 			"level" : 3,
@@ -257,7 +132,7 @@ function demo() {
 		},
 		{
 			"level" : 5,
-			"question" : "Vilken typ av dryck är geuze?,
+			"question" : "Vilken typ av dryck är geuze?",
 			"answer" : "Öl"
 		},
 		{
@@ -285,14 +160,8 @@ function demo() {
  * 
  */	
 	const mySet = getLevels(questions);
-	console.log(mySet);
-	
-	const sortedLevels = Object.keys(mySet);
-	sortedLevels.sort(function(a, b) {
-		return a - b;
-	});
-	console.log("sorted levels:");
-	console.log(sortedLevels);
+	const sortedLevels = sortLevels(mySet);
+	let randomQuestions = [];
 	
 	sortedLevels.forEach(function(element) {
 		
@@ -300,17 +169,18 @@ function demo() {
 		
 		questions.forEach(function(question) {
 			if (question.level === Number(element)) {
-				
 				level.push(question);
-				//console.log(question);
 			}
 		});
 		console.log(level.length);
 		// print random question
-		const randomQuestion = Math.floor (Math.random() * level.length);
-		console.log(level[randomQuestion]);
-		
+		const rng = Math.floor (Math.random() * level.length);
+		randomQuestions.push(level[rng]);
 	});
+	console.log("finished array = " + randomQuestions.length);
+	console.log(randomQuestions);
+	
+	return randomQuestions;
 }
 
 function getLevels(questions) {
@@ -321,4 +191,118 @@ function getLevels(questions) {
 	});
 	Object.freeze(mySet);
 	return mySet;
+}
+
+function sortLevels(unsortedSet) {
+	const sortedLevels = Object.keys(unsortedSet);
+	sortedLevels.sort(function(a, b) {
+		return a - b;
+	});
+	console.log("sorted levels:");
+	console.log(sortedLevels);
+	return sortedLevels;
+}
+
+function startaSpel()
+{
+	disableStartButton();
+	clearResult();
+	visaFraga();
+	
+	function clearResult() {
+		const result = document.getElementById("resultat");
+		result.textContent = undefined;
+	}
+}
+
+function enableStartButton() {
+	startButtonEnabled(true);
+}
+
+function disableStartButton() {
+	startButtonEnabled(false);
+}
+
+function startButtonEnabled(state) {
+	const startButton = document.getElementById("start");
+	startButton.disabled = !state;
+}
+
+function visaFraga()
+{
+	let counter = 10;
+	
+	const question = nextQuestion();
+	displayQuestion("Fråga " + question.level + ": " + question.question);
+	setIntervalID = setInterval(countdown, 1000); // hoisting... again!
+	
+	function nextQuestion() {
+		const nextQuestion = randomQuestions.shift();
+		Object.freeze(nextQuestion);
+		return nextQuestion;
+	}
+	
+	function countdown()
+	{
+		displayTime("Tid kvar: " + counter--);
+		if (counter === 0) {
+			clearInterval(setIntervalID);
+			gameOver("Tiden tog slut. Försök igen...");
+		}
+	}
+}
+
+function displayQuestion(message) {
+	const question = document.getElementById("fraga");
+	question.textContent = message;
+}
+
+function displayTime(time) 
+{
+	const timer = document.getElementById("klocka");
+	timer.textContent = time;
+}
+
+function svara()
+{
+		const svar = document.getElementById("svar");
+		const question = getCurrentQuestion();
+		const rattSvar = equalsIgnoreCase(svar.value, question.answer);
+		
+		if (rattSvar === true) {
+			svar.value = "";
+			clearInterval(setIntervalID);
+			visaFraga();
+			
+			if (lastQuestion() === true) {
+				gameOver();
+				window.location.assign("pris.html");
+			}
+		}
+		else if (rattSvar === false) {
+			gameOver("Fel svar! Försök igen...");
+		}
+		
+	function equalsIgnoreCase(first, second) {
+		return (first.toLowerCase() === second.toLowerCase()) ? true : false;
+	}
+	
+	function getCurrentQuestion() {
+		return randomQuestions[0];
+	}
+	
+	function lastQuestion() {
+		return (randomQuestions.length === 1) ? true : false;
+	}
+	
+}
+
+function gameOver(meddelande) {
+	
+	meddelande = (meddelande === undefined) ? "" : meddelande;
+	init();
+	
+	clearInterval(setIntervalID);
+	const textNodeResultat = document.createTextNode(meddelande);
+	document.getElementById("resultat").appendChild(textNodeResultat);
 }
