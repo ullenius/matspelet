@@ -5,18 +5,19 @@
 I "Matspelet" får användaren svara på fem frågor om mat. 
 Användaren får 10 sekunder per fråga att svara.
 */
+"use strict";
 
 let randomQuestions;
+let currentQuestion;
+let setIntervalID;
 window.onload = init();
 
 function init() {
 	displayTime("Tid kvar: Spel ej startat");
 	displayQuestion("Fråga 1: Spel ej startat");
 	enableStartButton();
-	randomQuestions = getRandomQuestions();
-	
-	console.log("random questions = ");
-	console.log(randomQuestions);
+	currentQuestion = undefined;
+	setIntervalID = undefined;
 }
 
 function getRandomQuestions() {
@@ -189,6 +190,8 @@ function sortLevels(unsortedSet) {
 
 function startaSpel()
 {
+	randomQuestions = getRandomQuestions();
+	console.log(randomQuestions); //DEBUG
 	disableStartButton();
 	clearResult();
 	visaFraga();
@@ -217,12 +220,14 @@ function visaFraga()
 	let counter = 10;
 	
 	const question = nextQuestion();
+	console.log(question);
 	displayQuestion("Fråga " + question.level + ": " + question.question);
 	setIntervalID = setInterval(countdown, 1000); // hoisting... again!
 	
 	function nextQuestion() {
 		const nextQuestion = randomQuestions.shift();
 		Object.freeze(nextQuestion);
+		currentQuestion = nextQuestion;
 		return nextQuestion;
 	}
 	
@@ -247,20 +252,30 @@ function displayTime(time)
 	timer.textContent = time;
 }
 
-function svara()
+/*
+ * Get answer...
+ * Check answer...
+ * Show next question...
+ * 
+ */
+function svara() // FIXME refactor this function
 {
 		const svar = document.getElementById("svar");
-		const question = getCurrentQuestion();
+		const question = currentQuestion;
+		console.log("current question");
+		console.log(question.answer);
+		
 		const rattSvar = equalsIgnoreCase(svar.value, question.answer);
 		
 		if (rattSvar === true) {
 			svar.value = "";
 			clearInterval(setIntervalID);
-			visaFraga();
-			
+
 			if (lastQuestion() === true) {
-				gameOver();
-				window.location.assign("pris.html");
+				gameOver("du vann!");
+				//window.location.assign("pris.html");
+			} else {
+				visaFraga();
 			}
 		}
 		else if (rattSvar === false) {
@@ -271,19 +286,12 @@ function svara()
 		return (first.toLowerCase() === second.toLowerCase()) ? true : false;
 	}
 	
-	function getCurrentQuestion() {
-		return randomQuestions[0];
-	}
-	
 	function lastQuestion() {
-		return (randomQuestions.length === 1) ? true : false;
+		return (randomQuestions.length === 0) ? true : false;
 	}
-	
 }
 
-function gameOver(message) {
-	
-	message = (message === undefined) ? "" : message;
+function gameOver(message = "") {
 	init();
 	
 	clearInterval(setIntervalID);
