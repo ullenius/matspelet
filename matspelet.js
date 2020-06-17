@@ -99,7 +99,6 @@ function visaFraga()
 	
 	function nextQuestion() {
 		currentQuestion = randomQuestions.shift();
-		return currentQuestion;
 	}
 	function countdown()
 	{
