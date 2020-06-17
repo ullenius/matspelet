@@ -45,7 +45,7 @@ function getRandomQuestions() {
 
 function getLevels(questions) {
 	
-	const mySet = {};
+	const mySet = Object.create(null);
 	questions.forEach(function(element) {
 		mySet[element.level] = true;
 	});
