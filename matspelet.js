@@ -1,10 +1,9 @@
 import {questions} from "./questions.js";
-//matspelet.js
-//Av Magnus Andersson 2011
-
 /*
-I "Matspelet" får användaren svara på fem frågor om mat. 
+I "Matspelet" får användaren svara på frågor om mat. 
 Användaren får 10 sekunder per fråga att svara.
+
+Av Magnus Andersson 2011
 */
 "use strict";
 let randomQuestions;
@@ -14,7 +13,7 @@ window.onload = init();
 
 function init() {
 	displayTime("Tid kvar: Spel ej startat");
-	displayQuestion("Fråga 1: Spel ej startat");
+	displayQuestion("Spel ej startat");
 	enableStartButton();
 	currentQuestion = undefined;
 	setIntervalID = undefined;
@@ -123,12 +122,10 @@ function displayTime(time)
 	timer.textContent = time;
 }
 
-function svara() // FIXME refactor this function
+function svara()
 {
 		let answer = getInput();
 		const correctAnswer = checkAnswer(answer, currentQuestion);
-		console.log("current question");
-		console.log(currentQuestion);
 		
 		if (correctAnswer === true) {
 			answer = "";
