@@ -1,27 +1,24 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html lang="sv">
   <head>
-    <link href="tomt_dokument.css" />
-    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=iso-8859-1"/>
-    <meta name="keywords" content="Recept, Mat, Drinkar, Bröd, Mr Magnuz" />
-    <meta name="author" content="Magnus Andersson" />
-    <title>
-      Mmm, det är så jävla gott! - Matspelet av Mr Magnuz
-    </title>
+  	<meta charset="utf-8" />
+    <meta name="keywords" content="Recept, Mat, Drinkar, BrÃ¶d, Mr Magnuz" />
+    <meta name="author" content="Magnus LidzÃ©n" />
+    <title>Mmm, det &auml;r s&aring; j&auml;vla gott! &#45; Matspelet av Mr Magnuz</title>
     <link type="text/css" href="matspelet.css" rel="stylesheet"/>
+     <script type="module" src="matspelet.js"></script>
   </head>
 
   <body>
      <div id="top">
         <h1>
            <a href="index.html">
-              Mmm, det är så jävla gott!
+              Mmm, det Ã¤r sÃ¥ jÃ¤vla gott!
            </a>
         </h1>
         <p>
            <em>
-              Välkommen till Matspelet!
+              VÃ¤lkommen till Matspelet!
            </em>
         </p>
      </div>
@@ -43,13 +40,13 @@
            Matspelet
         </h3>
         <p class="presentation">
-           Svara på fem frågor och vinn ett hemligt recept! Men se upp, du har bara 10 sekunder på dig att svara
-           och frågorna kommer löpande!
+           Svara pÃ¥ fem frÃ¥gor och vinn ett hemligt recept! Men se upp, du har bara 10 sekunder pÃ¥ dig att svara
+           och frÃ¥gorna kommer lÃ¶pande!
            <br />
            <br />
         </p>
         <div>
-           <input type="button" value="Starta nytt spel!" onclick="startaSpel()" />
+           <button id="start" onclick="startGame()">Starta nytt spel!</button>
         </div>
         <p id="fraga" class="speltext">
         </p>
@@ -59,7 +56,7 @@
            <input type="text" id="svar" />
         </div>
         <div>
-           <input type="button" value="Svara" onclick="svara()" />
+           <button onclick="svara()">Svara</button>
         </div>
         <p id ="resultat" class="resultatstil">
         </p>
@@ -73,6 +70,5 @@
            Av <a href="mailto: mr_magnuz@hotmail.com">Mr Magnuz</a> 2011
         </p>
      </div>
-     <script type="text/javascript" src="matspelet.js"></script>
   </body>
 </html>
