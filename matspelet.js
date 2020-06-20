@@ -6,9 +6,8 @@ Användaren får 10 sekunder per fråga att svara.
 Av Magnus Andersson 2011
 */
 "use strict";
-let randomQuestions;
-let currentQuestion;
-let id;
+
+const matspelet = Object.create(null);
 window.onload = init();
 
 function init() {
@@ -16,9 +15,10 @@ function init() {
 	displayQuestion("Spel ej startat");
 	enableStartButton();
 
-	currentQuestion = undefined;
-	window.id = undefined;
-	window.startaSpel = startaSpel;
+	matspelet.randomQuestions = undefined;
+	matspelet.currentQuestion = undefined;
+	matspelet.intervalId = undefined;
+	window.startGame = startGame;
 	window.svara = svara;
 }
 
@@ -61,10 +61,10 @@ function sortLevels(unsortedSet) {
 	return sortedLevels;
 }
 
-function startaSpel()
+function startGame()
 {
-	randomQuestions = getRandomQuestions();
-	console.log(randomQuestions); //DEBUG
+	matspelet.randomQuestions = getRandomQuestions();
+	console.log(matspelet.randomQuestions); //DEBUG
 	disableStartButton();
 	clearResult();
 	visaFraga();
@@ -93,13 +93,13 @@ function visaFraga()
 	let counter = 10;
 	
 	nextQuestion();
-	console.log(currentQuestion);
-	displayQuestion("Fråga " + currentQuestion.level + ": " + currentQuestion.question);
-	window.id = setInterval(countdown, 1000); //global variable
-	console.log("setIntervalId = " + window.id);
+	console.log(matspelet.currentQuestion);
+	displayQuestion("Fråga " + matspelet.currentQuestion.level + ": " + matspelet.currentQuestion.question);
+	matspelet.intervalId = setInterval(countdown, 1000); //global variable
+	console.log("setIntervalId = " + matspelet.intervalId);
 	
 	function nextQuestion() {
-		currentQuestion = randomQuestions.shift();
+		matspelet.currentQuestion = matspelet.randomQuestions.shift();
 	}
 	function countdown()
 	{
@@ -124,11 +124,11 @@ function displayTime(time)
 function svara()
 {
 		let answer = getInput();
-		const correctAnswer = checkAnswer(answer, currentQuestion);
+		const correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
 		
 		if (correctAnswer === true) {
 			answer = "";
-			clearInterval(id);
+			clearInterval(matspelet.intervalId);
 
 			if (lastQuestion() === true) {
 				gameOver("du vann!");
@@ -152,12 +152,12 @@ function svara()
 		}
 	}
 	function lastQuestion() {
-		return (randomQuestions.length === 0) ? true : false;
+		return (matspelet.randomQuestions.length === 0) ? true : false;
 	}
 }
 
 function gameOver(message = "") {
-	clearInterval(window.id);
+	clearInterval(matspelet.intervalId);
 	const textNodeResultat = document.createTextNode(message);
 	document.getElementById("resultat").appendChild(textNodeResultat);
 	init();
