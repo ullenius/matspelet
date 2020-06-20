@@ -8,16 +8,16 @@ Av Magnus Andersson 2011
 "use strict";
 let randomQuestions;
 let currentQuestion;
-let setIntervalID;
+let id;
 window.onload = init();
 
 function init() {
 	displayTime("Tid kvar: Spel ej startat");
 	displayQuestion("Spel ej startat");
 	enableStartButton();
+
 	currentQuestion = undefined;
-	setIntervalID = undefined;
-	
+	window.id = undefined;
 	window.startaSpel = startaSpel;
 	window.svara = svara;
 }
@@ -95,7 +95,8 @@ function visaFraga()
 	nextQuestion();
 	console.log(currentQuestion);
 	displayQuestion("Fråga " + currentQuestion.level + ": " + currentQuestion.question);
-	setIntervalID = setInterval(countdown, 1000); //global variable
+	window.id = setInterval(countdown, 1000); //global variable
+	console.log("setIntervalId = " + window.id);
 	
 	function nextQuestion() {
 		currentQuestion = randomQuestions.shift();
@@ -104,7 +105,6 @@ function visaFraga()
 	{
 		displayTime("Tid kvar: " + counter--);
 		if (counter === 0) {
-			clearInterval(setIntervalID);
 			gameOver("Tiden tog slut. Försök igen...");
 		}
 	}
@@ -128,7 +128,7 @@ function svara()
 		
 		if (correctAnswer === true) {
 			answer = "";
-			clearInterval(setIntervalID);
+			clearInterval(id);
 
 			if (lastQuestion() === true) {
 				gameOver("du vann!");
@@ -157,8 +157,8 @@ function svara()
 }
 
 function gameOver(message = "") {
-	init();
-	clearInterval(setIntervalID);
+	clearInterval(window.id);
 	const textNodeResultat = document.createTextNode(message);
 	document.getElementById("resultat").appendChild(textNodeResultat);
+	init();
 }
