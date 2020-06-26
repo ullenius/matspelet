@@ -19,7 +19,7 @@ function init() {
 	matspelet.currentQuestion = undefined;
 	matspelet.intervalId = undefined;
 	window.startGame = startGame;
-	window.svara = svara;
+	window.submitAnswer = submitAnswer;
 }
 
 function getRandomQuestions() {
@@ -95,7 +95,7 @@ function visaFraga()
 	nextQuestion();
 	console.log(matspelet.currentQuestion);
 	displayQuestion("Fråga " + matspelet.currentQuestion.level + ": " + matspelet.currentQuestion.question);
-	matspelet.intervalId = setInterval(countdown, 1000); //global variable
+	matspelet.intervalId = setInterval(countdown, 1000);
 	console.log("setIntervalId = " + matspelet.intervalId);
 	
 	function nextQuestion() {
@@ -121,7 +121,7 @@ function displayTime(time)
 	timer.textContent = time;
 }
 
-function svara()
+function submitAnswer()
 {
 		let answer = getInput();
 		const correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
