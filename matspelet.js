@@ -51,7 +51,7 @@ function getLevels(questions) {
 
 function sortLevels(unsortedSet) {
 	const sortedLevels = Object.keys(unsortedSet);
-	sortedLevels.sort(function(a, b) {
+	sortedLevels.sort(function compareTo(a, b) {
 		return a - b;
 	});
 	return sortedLevels;
