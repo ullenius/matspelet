@@ -28,14 +28,10 @@ function getRandomQuestions() {
 	const sortedLevels = sortLevels(mySet);
 	let randomQuestions = [];
 	
-	sortedLevels.forEach(function(element) {
+	sortedLevels.forEach(function pickOneRandomQuestionPerLevel(levelNo) {
 		
-		let level = [];
-		
-		questions.forEach(function(question) {
-			if (question.level === Number(element)) {
-				level.push(question);
-			}
+		const level = questions.filter(function equals(question) {
+			return question.level === Number(levelNo);
 		});
 		const rng = Math.floor (Math.random() * level.length);
 		randomQuestions.push(level[rng]);
