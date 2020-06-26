@@ -144,7 +144,7 @@ function submitAnswer()
 		return equalsIgnoreCase(answer, current.answer);
 		
 		function equalsIgnoreCase(first, second) {
-			return (first.toLowerCase() === second.toLowerCase()) ? true : false;
+			return first.toLowerCase() === second.toLowerCase();
 		}
 	}
 	function lastQuestion() {
