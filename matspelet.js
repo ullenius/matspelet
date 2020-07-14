@@ -11,13 +11,28 @@ const matspelet = Object.create(null);
 window.onload = init;
 
 function init() {
-	displayTime("Tid kvar: Spel ej startat");
 	displayMessage("Spel ej startat");
 	enableStartButton();
 
 	matspelet.randomQuestions = undefined;
 	matspelet.currentQuestion = undefined;
 	matspelet.intervalId = undefined;
+    matspelet.displayTime = function displayTime(time) {
+	        const timer = document.getElementById("klocka");
+            function display(time) {
+                timer.textContent = time;
+            }
+            return display(time);
+    };
+    const displayTime = matspelet.displayTime;
+	displayTime("Tid kvar: Spel ej startat");
+    console.log(displayTime);
+    matspelet.gameOver = function gameOver(message = "") {
+        clearInterval(matspelet.intervalId);
+        const textNodeResultat = document.createTextNode(message);
+        document.getElementById("resultat").appendChild(textNodeResultat);
+        init();
+    };
 	window.startGame = startGame;
 	window.submitAnswer = submitAnswer;
     
@@ -93,15 +108,15 @@ function visaFraga() {
 		matspelet.currentQuestion = matspelet.randomQuestions.shift();
 	}
     function displayQuestion() {
-        var question = matspelet.currentQuestion.level;
-        question.concat(": ");
-        question.concat(matspelet.currentQuestion.question;
-        return "Fråga " + question;
+        var question = matspelet.currentQuestion.level.toString();
+        question = question.concat(": ");
+        question = question.concat(matspelet.currentQuestion.question);
+        displayMessage("Fråga " + question);
     }
 	function countdown() {
-		displayTime("Tid kvar: " + counter--);
+		matspelet.displayTime("Tid kvar: " + counter--);
 		if (counter === 0) {
-			gameOver("Tiden tog slut. Försök igen...");
+			matspelet.gameOver("Tiden tog slut. Försök igen...");
 		}
 	}
 }
@@ -109,11 +124,6 @@ function visaFraga() {
 function displayMessage(message) {
 	const question = document.getElementById("fraga");
 	question.textContent = message;
-}
-
-function displayTime(time) {
-	const timer = document.getElementById("klocka");
-	timer.textContent = time;
 }
 
 function submitAnswer() {
@@ -132,7 +142,7 @@ function submitAnswer() {
 			}
 		}
 		else if (correctAnswer === false) {
-			gameOver("Fel svar! Försök igen...");
+			matspelet.gameOver("Fel svar! Försök igen...");
 		}
 	
 	function getInput() {
@@ -148,11 +158,4 @@ function submitAnswer() {
 	function lastQuestion() {
 		return (matspelet.randomQuestions.length === 0) ? true : false;
 	}
-}
-
-function gameOver(message = "") {
-	clearInterval(matspelet.intervalId);
-	const textNodeResultat = document.createTextNode(message);
-	document.getElementById("resultat").appendChild(textNodeResultat);
-	init();
 }
