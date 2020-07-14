@@ -22,14 +22,6 @@ function init() {
 	window.submitAnswer = submitAnswer;
 }
 
-function sortLevels(unsortedSet) {
-	const sortedLevels = Object.keys(unsortedSet);
-	sortedLevels.sort(function compareTo(a, b) {
-		return a - b;
-	});
-	return sortedLevels;
-}
-
 function startGame()
 {
 	matspelet.randomQuestions = getRandomQuestions();
@@ -60,7 +52,15 @@ function startGame()
             });
             Object.freeze(mySet);
             return mySet;
-         }
+        }
+
+        function sortLevels(unsortedSet) {
+            const sortedLevels = Object.keys(unsortedSet);
+            sortedLevels.sort(function compareTo(a, b) {
+                return a - b;
+            });
+	        return sortedLevels;
+        }
     }
 	
 	function clearResult() {
