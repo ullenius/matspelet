@@ -82,8 +82,7 @@ function startButtonEnabled(state) {
 	startButton.disabled = !state;
 }
 
-function visaFraga()
-{
+function visaFraga() {
 	let counter = 10;
 	
 	nextQuestion();
@@ -109,14 +108,12 @@ function displayQuestion(message) {
 	question.textContent = message;
 }
 
-function displayTime(time) 
-{
+function displayTime(time) {
 	const timer = document.getElementById("klocka");
 	timer.textContent = time;
 }
 
-function submitAnswer()
-{
+function submitAnswer() {
 		let answer = getInput();
 		const correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
 		
