@@ -22,23 +22,6 @@ function init() {
 	window.submitAnswer = submitAnswer;
 }
 
-function getRandomQuestions() {
-	
-	const mySet = getLevels(questions);
-	const sortedLevels = sortLevels(mySet);
-	let randomQuestions = [];
-	
-	sortedLevels.forEach(function pickOneRandomQuestionPerLevel(levelNo) {
-		
-		const level = questions.filter(function equals(question) {
-			return question.level === Number(levelNo);
-		});
-		const rng = Math.floor (Math.random() * level.length);
-		randomQuestions.push(level[rng]);
-	});
-	return randomQuestions;
-}
-
 function getLevels(questions) {
 	
 	const mySet = Object.create(null);
@@ -64,6 +47,22 @@ function startGame()
 	disableStartButton();
 	clearResult();
 	visaFraga();
+
+    function getRandomQuestions() {
+    	const mySet = getLevels(questions);
+    	const sortedLevels = sortLevels(mySet);
+    	let randomQuestions = [];
+	
+    	sortedLevels.forEach(function pickOneRandomQuestionPerLevel(levelNo) {
+		
+		    const level = questions.filter(function equals(question) {
+		    	return question.level === Number(levelNo);
+		    });
+		    const rng = Math.floor (Math.random() * level.length);
+		    randomQuestions.push(level[rng]);
+    	});
+	    return randomQuestions;
+    }
 	
 	function clearResult() {
 		const result = document.getElementById("resultat");
