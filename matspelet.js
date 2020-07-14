@@ -66,15 +66,14 @@ function startGame() {
 	        return sortedLevels;
         }
     }
-	
+    function disableStartButton() {
+        startButtonEnabled(false);
+    }
+        
 	function clearResult() {
 		const result = document.getElementById("resultat");
 		result.textContent = undefined;
 	}
-}
-
-function disableStartButton() {
-	startButtonEnabled(false);
 }
 
 function startButtonEnabled(state) {
@@ -83,20 +82,21 @@ function startButtonEnabled(state) {
 }
 
 function visaFraga() {
-	let counter = 10;
-	
+	var counter = 10;
 	nextQuestion();
-	console.log(matspelet.currentQuestion);
     displayQuestion();
 	matspelet.intervalId = setInterval(countdown, 1000);
+	console.log(matspelet.currentQuestion);
 	console.log("setIntervalId = " + matspelet.intervalId); //DEBUG
 	
 	function nextQuestion() {
 		matspelet.currentQuestion = matspelet.randomQuestions.shift();
 	}
     function displayQuestion() {
-	    displayMessage("Fråga " + matspelet.currentQuestion.level 
-        + ": " + matspelet.currentQuestion.question);
+        var question = matspelet.currentQuestion.level;
+        question.concat(": ");
+        question.concat(matspelet.currentQuestion.question;
+        return "Fråga " + question;
     }
 	function countdown() {
 		displayTime("Tid kvar: " + counter--);
