@@ -11,7 +11,11 @@ const matspelet = Object.create(null);
 window.onload = init;
 
 function init() {
-	displayMessage("Spel ej startat");
+    matspelet.displayMessage = function displayMessage(message) {
+        const question = document.getElementById("fraga");
+        question.textContent = message;
+    };
+	matspelet.displayMessage("Spel ej startat");
 	enableStartButton();
 
 	matspelet.randomQuestions = undefined;
@@ -111,7 +115,7 @@ function visaFraga() {
         var question = matspelet.currentQuestion.level.toString();
         question = question.concat(": ");
         question = question.concat(matspelet.currentQuestion.question);
-        displayMessage("Fråga " + question);
+        matspelet.displayMessage("Fråga " + question);
     }
 	function countdown() {
 		matspelet.displayTime("Tid kvar: " + counter--);
@@ -119,11 +123,6 @@ function visaFraga() {
 			matspelet.gameOver("Tiden tog slut. Försök igen...");
 		}
 	}
-}
-
-function displayMessage(message) {
-	const question = document.getElementById("fraga");
-	question.textContent = message;
 }
 
 function submitAnswer() {
