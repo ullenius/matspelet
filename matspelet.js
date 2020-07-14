@@ -8,11 +8,11 @@ Av Magnus Andersson 2011
 "use strict";
 
 const matspelet = Object.create(null);
-window.onload = init();
+window.onload = init;
 
 function init() {
 	displayTime("Tid kvar: Spel ej startat");
-	displayQuestion("Spel ej startat");
+	displayMessage("Spel ej startat");
 	enableStartButton();
 
 	matspelet.randomQuestions = undefined;
@@ -20,10 +20,14 @@ function init() {
 	matspelet.intervalId = undefined;
 	window.startGame = startGame;
 	window.submitAnswer = submitAnswer;
+    
+    function enableStartButton() {
+	    startButtonEnabled(true);
+    }
 }
 
-function startGame()
-{
+function startGame() {
+
 	matspelet.randomQuestions = getRandomQuestions();
 	console.log(matspelet.randomQuestions); //DEBUG
 	disableStartButton();
@@ -69,10 +73,6 @@ function startGame()
 	}
 }
 
-function enableStartButton() {
-	startButtonEnabled(true);
-}
-
 function disableStartButton() {
 	startButtonEnabled(false);
 }
@@ -87,15 +87,18 @@ function visaFraga() {
 	
 	nextQuestion();
 	console.log(matspelet.currentQuestion);
-	displayQuestion("Fråga " + matspelet.currentQuestion.level + ": " + matspelet.currentQuestion.question);
+    displayQuestion();
 	matspelet.intervalId = setInterval(countdown, 1000);
-	console.log("setIntervalId = " + matspelet.intervalId);
+	console.log("setIntervalId = " + matspelet.intervalId); //DEBUG
 	
 	function nextQuestion() {
 		matspelet.currentQuestion = matspelet.randomQuestions.shift();
 	}
-	function countdown()
-	{
+    function displayQuestion() {
+	    displayMessage("Fråga " + matspelet.currentQuestion.level 
+        + ": " + matspelet.currentQuestion.question);
+    }
+	function countdown() {
 		displayTime("Tid kvar: " + counter--);
 		if (counter === 0) {
 			gameOver("Tiden tog slut. Försök igen...");
@@ -103,7 +106,7 @@ function visaFraga() {
 	}
 }
 
-function displayQuestion(message) {
+function displayMessage(message) {
 	const question = document.getElementById("fraga");
 	question.textContent = message;
 }
