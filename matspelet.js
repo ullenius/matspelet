@@ -22,16 +22,6 @@ function init() {
 	window.submitAnswer = submitAnswer;
 }
 
-function getLevels(questions) {
-	
-	const mySet = Object.create(null);
-	questions.forEach(function parseLevels(question) {
-		mySet[question.level] = true;
-	});
-	Object.freeze(mySet);
-	return mySet;
-}
-
 function sortLevels(unsortedSet) {
 	const sortedLevels = Object.keys(unsortedSet);
 	sortedLevels.sort(function compareTo(a, b) {
@@ -62,6 +52,15 @@ function startGame()
 		    randomQuestions.push(level[rng]);
     	});
 	    return randomQuestions;
+
+        function getLevels(questions) {
+            const mySet = Object.create(null);
+            questions.forEach(function parseLevels(question) {
+                mySet[question.level] = true;
+            });
+            Object.freeze(mySet);
+            return mySet;
+         }
     }
 	
 	function clearResult() {
