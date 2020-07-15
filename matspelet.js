@@ -16,6 +16,13 @@ function init() {
         question.textContent = message;
     };
 	matspelet.displayMessage("Spel ej startat");
+    
+    const inputBox = document.getElementById("svar");
+    inputBox.onkeypress = function typing(e) {
+        if (e.key === "Enter") {
+            submitAnswer();
+        }
+    };
 	enableStartButton();
 
 	matspelet.randomQuestions = undefined;
@@ -134,7 +141,7 @@ function submitAnswer() {
 			clearInterval(matspelet.intervalId);
 
 			if (lastQuestion() === true) {
-				gameOver("du vann!");
+				gameOver("Du vann!");
 				//window.location.assign("pris.html");
 			} else {
 				visaFraga();
@@ -145,7 +152,7 @@ function submitAnswer() {
 		}
 	
 	function getInput() {
-		return document.getElementById("svar").value;
+        return document.getElementById("svar").value;
 	}
     function clearInputBox() {
         document.getElementById("svar").value = "";
