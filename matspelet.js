@@ -1,164 +1,170 @@
 import {questions} from "./questions.js";
 /*
-I "Matspelet" får användaren svara på frågor om mat. 
-Användaren får 10 sekunder per fråga att svara.
+   I "Matspelet" får användaren svara på frågor om mat. 
+   Användaren får 10 sekunder per fråga att svara.
 
-Av Magnus Andersson 2011
-*/
+   Av Magnus Andersson 2011
+ */
 "use strict";
 
 const matspelet = Object.create(null);
-window.onload = init();
+window.onload = init;
 
 function init() {
-	displayTime("Tid kvar: Spel ej startat");
-	displayQuestion("Spel ej startat");
-	enableStartButton();
+    matspelet.displayMessage = function displayMessage(message) {
+        const question = document.getElementById("fraga");
+        question.textContent = message;
+    };
+    matspelet.displayMessage("Spel ej startat");
 
-	matspelet.randomQuestions = undefined;
-	matspelet.currentQuestion = undefined;
-	matspelet.intervalId = undefined;
-	window.startGame = startGame;
-	window.submitAnswer = submitAnswer;
+    const inputBox = document.getElementById("svar");
+    inputBox.onkeypress = function typing(e) {
+        if (e.key === "Enter") {
+            submitAnswer();
+        }
+    };
+    enableStartButton();
+
+    matspelet.randomQuestions = undefined;
+    matspelet.currentQuestion = undefined;
+    matspelet.intervalId = undefined;
+    matspelet.displayTime = function displayTime(time) {
+        const timer = document.getElementById("klocka");
+        function display(time) {
+            timer.textContent = time;
+        }
+        return display(time);
+    };
+    const displayTime = matspelet.displayTime;
+    displayTime("Tid kvar: Spel ej startat");
+    console.log(displayTime);
+    matspelet.gameOver = function gameOver(message = "") {
+        clearInterval(matspelet.intervalId);
+        const textNodeResultat = document.createTextNode(message);
+        document.getElementById("resultat").appendChild(textNodeResultat);
+        init();
+    };
+    window.startGame = startGame;
+    window.submitAnswer = submitAnswer;
+
+    function enableStartButton() {
+        startButtonEnabled(true);
+    }
 }
 
-function getRandomQuestions() {
-	
-	const mySet = getLevels(questions);
-	const sortedLevels = sortLevels(mySet);
-	let randomQuestions = [];
-	
-	sortedLevels.forEach(function(element) {
-		
-		let level = [];
-		
-		questions.forEach(function(question) {
-			if (question.level === Number(element)) {
-				level.push(question);
-			}
-		});
-		const rng = Math.floor (Math.random() * level.length);
-		randomQuestions.push(level[rng]);
-	});
-	return randomQuestions;
-}
+function startGame() {
 
-function getLevels(questions) {
-	
-	const mySet = Object.create(null);
-	questions.forEach(function(element) {
-		mySet[element.level] = true;
-	});
-	Object.freeze(mySet);
-	return mySet;
-}
+    matspelet.randomQuestions = getRandomQuestions();
+    console.log(matspelet.randomQuestions); //DEBUG
+    disableStartButton();
+    clearResult();
+    visaFraga();
 
-function sortLevels(unsortedSet) {
-	const sortedLevels = Object.keys(unsortedSet);
-	sortedLevels.sort(function(a, b) {
-		return a - b;
-	});
-	return sortedLevels;
-}
+    function getRandomQuestions() {
+        const mySet = getLevels(questions);
+        const sortedLevels = sortLevels(mySet);
+        let randomQuestions = [];
 
-function startGame()
-{
-	matspelet.randomQuestions = getRandomQuestions();
-	console.log(matspelet.randomQuestions); //DEBUG
-	disableStartButton();
-	clearResult();
-	visaFraga();
-	
-	function clearResult() {
-		const result = document.getElementById("resultat");
-		result.textContent = undefined;
-	}
-}
+        sortedLevels.forEach(function pickOneRandomQuestionPerLevel(levelNo) {
 
-function enableStartButton() {
-	startButtonEnabled(true);
-}
+                const level = questions.filter(function equals(question) {
+                        return question.level === Number(levelNo);
+                        });
+                const rng = Math.floor (Math.random() * level.length);
+                randomQuestions.push(level[rng]);
+                });
+        return randomQuestions;
 
-function disableStartButton() {
-	startButtonEnabled(false);
+        function getLevels(questions) {
+            const mySet = Object.create(null);
+            questions.forEach(function parseLevels(question) {
+                    mySet[question.level] = true;
+                    });
+            Object.freeze(mySet);
+            return mySet;
+        }
+
+        function sortLevels(unsortedSet) {
+            const sortedLevels = Object.keys(unsortedSet);
+            sortedLevels.sort(function compareTo(a, b) {
+                    return a - b;
+                    });
+            return sortedLevels;
+        }
+    }
+    function disableStartButton() {
+        startButtonEnabled(false);
+    }
+
+    function clearResult() {
+        const result = document.getElementById("resultat");
+        result.textContent = undefined;
+    }
 }
 
 function startButtonEnabled(state) {
-	const startButton = document.getElementById("start");
-	startButton.disabled = !state;
+    const startButton = document.getElementById("start");
+    startButton.disabled = !state;
 }
 
-function visaFraga()
-{
-	let counter = 10;
-	
-	nextQuestion();
-	console.log(matspelet.currentQuestion);
-	displayQuestion("Fråga " + matspelet.currentQuestion.level + ": " + matspelet.currentQuestion.question);
-	matspelet.intervalId = setInterval(countdown, 1000);
-	console.log("setIntervalId = " + matspelet.intervalId);
-	
-	function nextQuestion() {
-		matspelet.currentQuestion = matspelet.randomQuestions.shift();
-	}
-	function countdown()
-	{
-		displayTime("Tid kvar: " + counter--);
-		if (counter === 0) {
-			gameOver("Tiden tog slut. Försök igen...");
-		}
-	}
+function visaFraga() {
+    var counter = 10;
+    nextQuestion();
+    displayQuestion();
+    matspelet.intervalId = setInterval(countdown, 1000);
+    console.log(matspelet.currentQuestion);
+    console.log("setIntervalId = " + matspelet.intervalId); //DEBUG
+
+    function nextQuestion() {
+        matspelet.currentQuestion = matspelet.randomQuestions.shift();
+    }
+    function displayQuestion() {
+        var question = matspelet.currentQuestion.level.toString();
+        question = question.concat(": ");
+        question = question.concat(matspelet.currentQuestion.question);
+        matspelet.displayMessage("Fråga " + question);
+    }
+    function countdown() {
+        matspelet.displayTime("Tid kvar: " + counter--);
+        if (counter === 0) {
+            matspelet.gameOver("Tiden tog slut. Försök igen...");
+        }
+    }
 }
 
-function displayQuestion(message) {
-	const question = document.getElementById("fraga");
-	question.textContent = message;
-}
+function submitAnswer() {
+    const answer = getInput();
+    const correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
 
-function displayTime(time) 
-{
-	const timer = document.getElementById("klocka");
-	timer.textContent = time;
-}
+    if (correctAnswer === true) {
+        clearInputBox();
+        clearInterval(matspelet.intervalId);
 
-function submitAnswer()
-{
-		let answer = getInput();
-		const correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
-		
-		if (correctAnswer === true) {
-			answer = "";
-			clearInterval(matspelet.intervalId);
+        if (lastQuestion() === true) {
+            gameOver("Du vann!");
+            //window.location.assign("pris.html");
+        } else {
+            visaFraga();
+        }
+    }
+    else if (correctAnswer === false) {
+        matspelet.gameOver("Fel svar! Försök igen...");
+    }
 
-			if (lastQuestion() === true) {
-				gameOver("du vann!");
-				//window.location.assign("pris.html");
-			} else {
-				visaFraga();
-			}
-		}
-		else if (correctAnswer === false) {
-			gameOver("Fel svar! Försök igen...");
-		}
-	
-	function getInput() {
-		return document.getElementById("svar").value;
-	}
-	function checkAnswer(answer, current) {
-		return equalsIgnoreCase(answer, current.answer);
-		
-		function equalsIgnoreCase(first, second) {
-			return (first.toLowerCase() === second.toLowerCase()) ? true : false;
-		}
-	}
-	function lastQuestion() {
-		return (matspelet.randomQuestions.length === 0) ? true : false;
-	}
-}
+    function getInput() {
+        return document.getElementById("svar").value;
+    }
+    function clearInputBox() {
+        document.getElementById("svar").value = "";
+    }
+    function checkAnswer(answer, current) {
+        return equalsIgnoreCase(answer, current.answer);
 
-function gameOver(message = "") {
-	clearInterval(matspelet.intervalId);
-	const textNodeResultat = document.createTextNode(message);
-	document.getElementById("resultat").appendChild(textNodeResultat);
-	init();
+        function equalsIgnoreCase(first, second) {
+            return first.toLowerCase() === second.toLowerCase();
+        }
+    }
+    function lastQuestion() {
+        return (matspelet.randomQuestions.length === 0) ? true : false;
+    }
 }
