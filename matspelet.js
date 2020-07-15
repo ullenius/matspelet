@@ -126,11 +126,11 @@ function visaFraga() {
 }
 
 function submitAnswer() {
-		let answer = getInput();
+		const answer = getInput();
 		const correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
 		
 		if (correctAnswer === true) {
-			answer = "";
+            clearInputBox();
 			clearInterval(matspelet.intervalId);
 
 			if (lastQuestion() === true) {
@@ -147,6 +147,9 @@ function submitAnswer() {
 	function getInput() {
 		return document.getElementById("svar").value;
 	}
+    function clearInputBox() {
+        document.getElementById("svar").value = "";
+    }
 	function checkAnswer(answer, current) {
 		return equalsIgnoreCase(answer, current.answer);
 		
