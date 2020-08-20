@@ -1,28 +1,19 @@
 import {questions} from "./questions.js";
-/*
-   I "Matspelet" får användaren svara på frågor om mat. 
-   Användaren får 10 sekunder per fråga att svara.
-
-   Av Magnus Andersson 2011
- */
 "use strict";
+// Av Magnus Andersson 2011
 
 const matspelet = Object.create(null);
 window.onload = init;
 
 function init() {
-    matspelet.displayMessage = function displayMessage(message) {
-        const question = document.getElementById("fraga");
-        question.textContent = message;
-    };
-    matspelet.displayMessage("Spel ej startat");
+    displayMessage("Spel ej startat");
 
-    const inputBox = document.getElementById("svar");
-    inputBox.onkeypress = function typing(e) {
+    var inputBox = document.getElementById("svar");
+    inputBox.addEventListener("keydown", function typing(e) {
         if (e.key === "Enter") {
             submitAnswer();
         }
-    };
+    });
     enableStartButton();
 
     matspelet.randomQuestions = undefined;
@@ -51,6 +42,13 @@ function init() {
         startButtonEnabled(true);
     }
 }
+
+function displayMessage(message) {
+    var question = document.getElementById("fraga");
+    question.textContent = message;
+};
+
+
 
 function startGame() {
 
@@ -122,7 +120,7 @@ function visaFraga() {
         var question = matspelet.currentQuestion.level.toString();
         question = question.concat(": ");
         question = question.concat(matspelet.currentQuestion.question);
-        matspelet.displayMessage("Fråga " + question);
+        displayMessage("Fråga " + question);
     }
     function countdown() {
         matspelet.displayTime("Tid kvar: " + counter--);
@@ -133,8 +131,8 @@ function visaFraga() {
 }
 
 function submitAnswer() {
-    const answer = getInput();
-    const correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
+    var answer = getInput();
+    var correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
 
     if (correctAnswer === true) {
         clearInputBox();
