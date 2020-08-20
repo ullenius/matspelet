@@ -14,28 +14,21 @@ function init() {
             submitAnswer();
         }
     });
-    enableStartButton();
+
+    var startGameButton = document.getElementById("start");
+    start.addEventListener("click", startGame);
+
+    var answerGameButton = document.getElementById("answer");
+    answer.addEventListener("click", submitAnswer);
+
+    startButton( { enabled: true } );
+    displayTime("Tid kvar: Spel ej startat");
 
     /*
     matspelet.randomQuestions = undefined;
     matspelet.currentQuestion = undefined;
     matspelet.intervalId = undefined;
     */
-
-    displayTime("Tid kvar: Spel ej startat");
-    console.log(displayTime);
-    matspelet.gameOver = function gameOver(message = "") {
-        clearInterval(matspelet.intervalId);
-        const textNodeResultat = document.createTextNode(message);
-        document.getElementById("resultat").appendChild(textNodeResultat);
-        init();
-    };
-    window.startGame = startGame;
-    window.submitAnswer = submitAnswer;
-
-    function enableStartButton() {
-        startButtonEnabled(true);
-    }
 }
 
 function displayTime(time) {
@@ -48,13 +41,18 @@ function displayMessage(message) {
     question.textContent = message;
 };
 
-
+function gameOver(message = "") {
+    clearInterval(matspelet.intervalId);
+    var textNodeResultat = document.createTextNode(message);
+    document.getElementById("resultat").appendChild(textNodeResultat);
+    init(); // remove?
+}
 
 function startGame() {
 
     matspelet.randomQuestions = getRandomQuestions();
     console.log(matspelet.randomQuestions); //DEBUG
-    disableStartButton();
+    startButton( { enabled: false } );
     clearResult();
     visaFraga();
 
@@ -83,26 +81,23 @@ function startGame() {
         }
 
         function sortLevels(unsortedSet) {
-            const sortedLevels = Object.keys(unsortedSet);
+            var sortedLevels = Object.keys(unsortedSet);
             sortedLevels.sort(function compareTo(a, b) {
                     return a - b;
                     });
             return sortedLevels;
         }
     }
-    function disableStartButton() {
-        startButtonEnabled(false);
-    }
 
     function clearResult() {
-        const result = document.getElementById("resultat");
+        var result = document.getElementById("resultat");
         result.textContent = undefined;
     }
 }
 
-function startButtonEnabled(state) {
-    const startButton = document.getElementById("start");
-    startButton.disabled = !state;
+function startButton( { enabled } ) {
+    var startButton = document.getElementById("start");
+    startButton.disabled = !enabled;
 }
 
 function visaFraga() {
@@ -125,7 +120,7 @@ function visaFraga() {
     function countdown() {
         displayTime("Tid kvar: " + counter--);
         if (counter === 0) {
-            matspelet.gameOver("Tiden tog slut. Försök igen...");
+            gameOver("Tiden tog slut. Försök igen...");
         }
     }
 }
@@ -146,7 +141,7 @@ function submitAnswer() {
         }
     }
     else if (correctAnswer === false) {
-        matspelet.gameOver("Fel svar! Försök igen...");
+        gameOver("Fel svar! Försök igen...");
     }
 
     function getInput() {
