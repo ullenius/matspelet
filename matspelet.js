@@ -23,12 +23,6 @@ function init() {
 
     startButton( { enabled: true } );
     displayTime("Tid kvar: Spel ej startat");
-
-    /*
-    matspelet.randomQuestions = undefined;
-    matspelet.currentQuestion = undefined;
-    matspelet.intervalId = undefined;
-    */
 }
 
 function displayTime(time) {
@@ -39,7 +33,7 @@ function displayTime(time) {
 function displayMessage(message) {
     var question = document.getElementById("fraga");
     question.textContent = message;
-};
+}
 
 function gameOver(message = "") {
     clearInterval(matspelet.intervalId);
@@ -64,12 +58,10 @@ function getRandomQuestions() {
         });
        let mySet = new Set(arr);
        var levels = [...mySet].sort();
-   };
-   console.log("levels ", levels);
+    };
+    var randomQuestions = [];
 
-   let randomQuestions = [];
-
-    levels.forEach(function pickOneReandomQuestionPerLevel(level) {
+    levels.forEach(function pickOneRandomQuestionPerLevel(level) {
 
         let questionArr = questions.filter(function equals(question) {
             return (question.level === level);
@@ -95,7 +87,7 @@ function visaFraga() {
     nextQuestion();
     displayQuestion();
     matspelet.intervalId = setInterval(countdown, 1000);
-    console.log(matspelet.currentQuestion);
+    console.log(matspelet.currentQuestion); // DEBUG
     console.log("setIntervalId = " + matspelet.intervalId); //DEBUG
 
     function nextQuestion() {
