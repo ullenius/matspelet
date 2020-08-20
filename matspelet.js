@@ -56,43 +56,33 @@ function startGame() {
     clearResult();
     visaFraga();
 
-    function getRandomQuestions() {
-        const mySet = getLevels(questions);
-        const sortedLevels = sortLevels(mySet);
-        let randomQuestions = [];
+}
+function getRandomQuestions() {
+    {
+       let arr = questions.map(function pullLevels(element) {
+            return element.level;
+        });
+       let mySet = new Set(arr);
+       var levels = [...mySet].sort();
+   };
+   console.log("levels ", levels);
 
-        sortedLevels.forEach(function pickOneRandomQuestionPerLevel(levelNo) {
+   let randomQuestions = [];
 
-                const level = questions.filter(function equals(question) {
-                        return question.level === Number(levelNo);
-                        });
-                const rng = Math.floor (Math.random() * level.length);
-                randomQuestions.push(level[rng]);
-                });
-        return randomQuestions;
+    levels.forEach(function pickOneReandomQuestionPerLevel(level) {
 
-        function getLevels(questions) {
-            const mySet = Object.create(null);
-            questions.forEach(function parseLevels(question) {
-                    mySet[question.level] = true;
-                    });
-            Object.freeze(mySet);
-            return mySet;
-        }
+        let questionArr = questions.filter(function equals(question) {
+            return (question.level === level);
+        });
+        const rng = Math.floor (Math.random() * questionArr.length);
+        randomQuestions.push(questionArr[rng]);
+      });
+      return randomQuestions;
+}
 
-        function sortLevels(unsortedSet) {
-            var sortedLevels = Object.keys(unsortedSet);
-            sortedLevels.sort(function compareTo(a, b) {
-                    return a - b;
-                    });
-            return sortedLevels;
-        }
-    }
-
-    function clearResult() {
-        var result = document.getElementById("resultat");
-        result.textContent = undefined;
-    }
+function clearResult() {
+    var result = document.getElementById("resultat");
+    result.textContent = undefined;
 }
 
 function startButton( { enabled } ) {
