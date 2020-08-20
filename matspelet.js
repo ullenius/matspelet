@@ -1,110 +1,85 @@
 import {questions} from "./questions.js";
-/*
-   I "Matspelet" får användaren svara på frågor om mat. 
-   Användaren får 10 sekunder per fråga att svara.
-
-   Av Magnus Andersson 2011
- */
 "use strict";
+// Av Magnus Andersson 2011
 
 const matspelet = Object.create(null);
 window.onload = init;
 
 function init() {
-    matspelet.displayMessage = function displayMessage(message) {
-        const question = document.getElementById("fraga");
-        question.textContent = message;
-    };
-    matspelet.displayMessage("Spel ej startat");
+    displayMessage("Spel ej startat");
 
-    const inputBox = document.getElementById("svar");
-    inputBox.onkeypress = function typing(e) {
+    var inputBox = document.getElementById("svar");
+    inputBox.addEventListener("keydown", function typing(e) {
         if (e.key === "Enter") {
             submitAnswer();
         }
-    };
-    enableStartButton();
+    });
 
-    matspelet.randomQuestions = undefined;
-    matspelet.currentQuestion = undefined;
-    matspelet.intervalId = undefined;
-    matspelet.displayTime = function displayTime(time) {
-        const timer = document.getElementById("klocka");
-        function display(time) {
-            timer.textContent = time;
-        }
-        return display(time);
-    };
-    const displayTime = matspelet.displayTime;
+    var startGameButton = document.getElementById("start");
+    start.addEventListener("click", startGame);
+
+    var answerGameButton = document.getElementById("answer");
+    answer.addEventListener("click", submitAnswer);
+
+    startButton( { enabled: true } );
     displayTime("Tid kvar: Spel ej startat");
-    console.log(displayTime);
-    matspelet.gameOver = function gameOver(message = "") {
-        clearInterval(matspelet.intervalId);
-        const textNodeResultat = document.createTextNode(message);
-        document.getElementById("resultat").appendChild(textNodeResultat);
-        init();
-    };
-    window.startGame = startGame;
-    window.submitAnswer = submitAnswer;
+}
 
-    function enableStartButton() {
-        startButtonEnabled(true);
-    }
+function displayTime(time) {
+    var timer = document.getElementById("klocka");
+    timer.textContent = time;
+}
+
+function displayMessage(message) {
+    var question = document.getElementById("fraga");
+    question.textContent = message;
+}
+
+function gameOver(message = "") {
+    clearInterval(matspelet.intervalId);
+    var textNodeResultat = document.createTextNode(message);
+    document.getElementById("resultat").appendChild(textNodeResultat);
+    init(); // remove?
 }
 
 function startGame() {
 
     matspelet.randomQuestions = getRandomQuestions();
     console.log(matspelet.randomQuestions); //DEBUG
-    disableStartButton();
+    startButton( { enabled: false } );
     clearResult();
     visaFraga();
 
-    function getRandomQuestions() {
-        const mySet = getLevels(questions);
-        const sortedLevels = sortLevels(mySet);
-        let randomQuestions = [];
+}
+function getRandomQuestions() {
+    {
+       let arr = questions.map(function pullLevels(element) {
+            return element.level;
+        });
+       let mySet = new Set(arr);
+       var levels = [...mySet].sort();
+    };
+    var randomQuestions = [];
 
-        sortedLevels.forEach(function pickOneRandomQuestionPerLevel(levelNo) {
+    levels.forEach(function pickOneRandomQuestionPerLevel(level) {
 
-                const level = questions.filter(function equals(question) {
-                        return question.level === Number(levelNo);
-                        });
-                const rng = Math.floor (Math.random() * level.length);
-                randomQuestions.push(level[rng]);
-                });
-        return randomQuestions;
-
-        function getLevels(questions) {
-            const mySet = Object.create(null);
-            questions.forEach(function parseLevels(question) {
-                    mySet[question.level] = true;
-                    });
-            Object.freeze(mySet);
-            return mySet;
-        }
-
-        function sortLevels(unsortedSet) {
-            const sortedLevels = Object.keys(unsortedSet);
-            sortedLevels.sort(function compareTo(a, b) {
-                    return a - b;
-                    });
-            return sortedLevels;
-        }
-    }
-    function disableStartButton() {
-        startButtonEnabled(false);
-    }
-
-    function clearResult() {
-        const result = document.getElementById("resultat");
-        result.textContent = undefined;
-    }
+        let questionArr = questions.filter(function equals(question) {
+            return (question.level === level);
+        });
+        const rng = Math.floor (Math.random() * questionArr.length);
+        randomQuestions.push(questionArr[rng]);
+      });
+      return randomQuestions;
 }
 
-function startButtonEnabled(state) {
-    const startButton = document.getElementById("start");
-    startButton.disabled = !state;
+function clearResult() {
+    var result = document.getElementById("resultat");
+    result.textContent = undefined;
+}
+
+function startButton( { enabled } ) {
+    var startButton = document.getElementById("start");
+    startButton.disabled = !enabled;
 }
 
 function visaFraga() {
@@ -112,7 +87,7 @@ function visaFraga() {
     nextQuestion();
     displayQuestion();
     matspelet.intervalId = setInterval(countdown, 1000);
-    console.log(matspelet.currentQuestion);
+    console.log(matspelet.currentQuestion); // DEBUG
     console.log("setIntervalId = " + matspelet.intervalId); //DEBUG
 
     function nextQuestion() {
@@ -122,19 +97,19 @@ function visaFraga() {
         var question = matspelet.currentQuestion.level.toString();
         question = question.concat(": ");
         question = question.concat(matspelet.currentQuestion.question);
-        matspelet.displayMessage("Fråga " + question);
+        displayMessage("Fråga " + question);
     }
     function countdown() {
-        matspelet.displayTime("Tid kvar: " + counter--);
+        displayTime("Tid kvar: " + counter--);
         if (counter === 0) {
-            matspelet.gameOver("Tiden tog slut. Försök igen...");
+            gameOver("Tiden tog slut. Försök igen...");
         }
     }
 }
 
 function submitAnswer() {
-    const answer = getInput();
-    const correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
+    var answer = getInput();
+    var correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
 
     if (correctAnswer === true) {
         clearInputBox();
@@ -148,7 +123,7 @@ function submitAnswer() {
         }
     }
     else if (correctAnswer === false) {
-        matspelet.gameOver("Fel svar! Försök igen...");
+        gameOver("Fel svar! Försök igen...");
     }
 
     function getInput() {
