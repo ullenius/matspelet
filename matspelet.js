@@ -16,17 +16,12 @@ function init() {
     });
     enableStartButton();
 
+    /*
     matspelet.randomQuestions = undefined;
     matspelet.currentQuestion = undefined;
     matspelet.intervalId = undefined;
-    matspelet.displayTime = function displayTime(time) {
-        const timer = document.getElementById("klocka");
-        function display(time) {
-            timer.textContent = time;
-        }
-        return display(time);
-    };
-    const displayTime = matspelet.displayTime;
+    */
+
     displayTime("Tid kvar: Spel ej startat");
     console.log(displayTime);
     matspelet.gameOver = function gameOver(message = "") {
@@ -41,6 +36,11 @@ function init() {
     function enableStartButton() {
         startButtonEnabled(true);
     }
+}
+
+function displayTime(time) {
+    var timer = document.getElementById("klocka");
+    timer.textContent = time;
 }
 
 function displayMessage(message) {
@@ -123,7 +123,7 @@ function visaFraga() {
         displayMessage("Fråga " + question);
     }
     function countdown() {
-        matspelet.displayTime("Tid kvar: " + counter--);
+        displayTime("Tid kvar: " + counter--);
         if (counter === 0) {
             matspelet.gameOver("Tiden tog slut. Försök igen...");
         }
