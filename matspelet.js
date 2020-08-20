@@ -16,10 +16,10 @@ function init() {
     });
 
     var startGameButton = document.getElementById("start");
-    start.addEventListener("click", startGame);
+    startGameButton.addEventListener("click", startGame);
 
-    var answerGameButton = document.getElementById("answer");
-    answer.addEventListener("click", submitAnswer);
+    var answerButton = document.getElementById("answer");
+    answerButton.addEventListener("click", submitAnswer);
 
     startButton( { enabled: true } );
     displayTime("Tid kvar: Spel ej startat");
@@ -58,7 +58,7 @@ function getRandomQuestions() {
         });
        let mySet = new Set(arr);
        var levels = [...mySet].sort();
-    };
+    }
     var randomQuestions = [];
 
     levels.forEach(function pickOneRandomQuestionPerLevel(level) {
