@@ -2,7 +2,15 @@ import {questions} from "./questions.js";
 "use strict";
 // Av Magnus Andersson 2011
 
-const matspelet = Object.create(null);
+var matspelet = {
+
+    randomQuestions: [],
+    *[Symbol.iterator]() {
+        var question = this.randomQuestions.shift();
+        yield question;
+    }
+};
+
 window.onload = init;
 
 function init() {
@@ -84,21 +92,26 @@ function startButton( { enabled } ) {
 
 function visaFraga() {
     var counter = 10;
-    nextQuestion();
-    displayQuestion();
-    matspelet.intervalId = setInterval(countdown, 1000);
-    console.log(matspelet.currentQuestion); // DEBUG
+
+    var iterator = matspelet[Symbol.iterator]();
+    var next = iterator.next();
+    var {
+        value : {
+                level,
+                question
+                }
+    } = next;
+
+    console.log("level", level);
+    console.log(question);
+
+    var questionText = `Fråga ${level}: ${question}`;
+
+    displayMessage(questionText);
+
+    matspelet.intervalId = setInterval(countdown, 1000); // TODO move this
     console.log("setIntervalId = " + matspelet.intervalId); //DEBUG
 
-    function nextQuestion() {
-        matspelet.currentQuestion = matspelet.randomQuestions.shift();
-    }
-    function displayQuestion() {
-        var question = matspelet.currentQuestion.level.toString();
-        question = question.concat(": ");
-        question = question.concat(matspelet.currentQuestion.question);
-        displayMessage("Fråga " + question);
-    }
     function countdown() {
         displayTime("Tid kvar: " + counter--);
         if (counter === 0) {
