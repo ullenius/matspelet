@@ -1,8 +1,10 @@
-import {questions} from "./questions.js";
+import { matspelet } from "./game.js";
 "use strict";
 // Av Magnus Andersson 2011
 
-const matspelet = Object.create(null);
+const START = "start";
+const ANSWER = "answer";
+
 window.onload = init;
 
 function init() {
@@ -21,7 +23,9 @@ function init() {
     var answerButton = document.getElementById("answer");
     answerButton.addEventListener("click", submitAnswer);
 
-    startButton( { enabled: true } );
+    toggleButton( { name: START, enabled: true } );
+    toggleButton( { name: ANSWER, enabled: false } );
+
     displayTime("Tid kvar: Spel ej startat");
 }
 
@@ -39,37 +43,16 @@ function gameOver(message = "") {
     clearInterval(matspelet.intervalId);
     var textNodeResultat = document.createTextNode(message);
     document.getElementById("resultat").appendChild(textNodeResultat);
-    init(); // remove?
+    init();
 }
 
 function startGame() {
 
-    matspelet.randomQuestions = getRandomQuestions();
-    console.log(matspelet.randomQuestions); //DEBUG
-    startButton( { enabled: false } );
+    matspelet.init();
+    toggleButton( { name: START, enabled: false } );
+    toggleButton( { name: ANSWER, enabled: true } );
     clearResult();
-    visaFraga();
-
-}
-function getRandomQuestions() {
-    {
-       let arr = questions.map(function pullLevels(element) {
-            return element.level;
-        });
-       let mySet = new Set(arr);
-       var levels = [...mySet].sort();
-    }
-    var randomQuestions = [];
-
-    levels.forEach(function pickOneRandomQuestionPerLevel(level) {
-
-        let questionArr = questions.filter(function equals(question) {
-            return (question.level === level);
-        });
-        const rng = Math.floor (Math.random() * questionArr.length);
-        randomQuestions.push(questionArr[rng]);
-      });
-      return randomQuestions;
+    showQuestion();
 }
 
 function clearResult() {
@@ -77,30 +60,38 @@ function clearResult() {
     result.textContent = undefined;
 }
 
-function startButton( { enabled } ) {
-    var startButton = document.getElementById("start");
-    startButton.disabled = !enabled;
+function toggleButton( { name, enabled } ) {
+    var button = document.getElementById(name);
+    button.disabled = !enabled;
 }
 
-function visaFraga() {
+function showQuestion() {
     var counter = 10;
-    nextQuestion();
-    displayQuestion();
-    matspelet.intervalId = setInterval(countdown, 1000);
-    console.log(matspelet.currentQuestion); // DEBUG
-    console.log("setIntervalId = " + matspelet.intervalId); //DEBUG
 
-    function nextQuestion() {
-        matspelet.currentQuestion = matspelet.randomQuestions.shift();
+    var iterator = matspelet[Symbol.iterator]();
+    var next = iterator.next();
+    console.log(next); // DEBUG
+    var {
+        done,
+        value : {
+                level,
+                question
+                } = {}
+    } = next;
+
+    if (done) {
+        gameOver("Du vann!");
+        return;
     }
-    function displayQuestion() {
-        var question = matspelet.currentQuestion.level.toString();
-        question = question.concat(": ");
-        question = question.concat(matspelet.currentQuestion.question);
-        displayMessage("Fråga " + question);
-    }
+
+    var questionText = `Fråga ${level}: ${question}`;
+    displayMessage(questionText, done);
+
+    matspelet.intervalId = setInterval(countdown, 1000);
+    console.log("setIntervalId = ", matspelet.intervalId); //DEBUG
+
     function countdown() {
-        displayTime("Tid kvar: " + counter--);
+        displayTime(`Tid kvar: ${counter--}`);
         if (counter === 0) {
             gameOver("Tiden tog slut. Försök igen...");
         }
@@ -109,20 +100,13 @@ function visaFraga() {
 
 function submitAnswer() {
     var answer = getInput();
-    var correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
+    var correctAnswer = checkAnswer(answer, matspelet.current);
 
     if (correctAnswer === true) {
         clearInputBox();
         clearInterval(matspelet.intervalId);
-
-        if (lastQuestion() === true) {
-            gameOver("Du vann!");
-            //window.location.assign("pris.html");
-        } else {
-            visaFraga();
-        }
-    }
-    else if (correctAnswer === false) {
+        showQuestion();
+    } else {
         gameOver("Fel svar! Försök igen...");
     }
 
@@ -138,8 +122,5 @@ function submitAnswer() {
         function equalsIgnoreCase(first, second) {
             return first.toLowerCase() === second.toLowerCase();
         }
-    }
-    function lastQuestion() {
-        return (matspelet.randomQuestions.length === 0) ? true : false;
     }
 }
