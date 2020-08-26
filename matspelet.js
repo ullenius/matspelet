@@ -5,8 +5,10 @@ import {questions} from "./questions.js";
 var matspelet = {
 
     randomQuestions: [],
+    current : undefined,
     *[Symbol.iterator]() {
         var question = this.randomQuestions.shift();
+        this.current = question;
         yield question;
     }
 };
@@ -101,10 +103,6 @@ function visaFraga() {
                 question
                 }
     } = next;
-
-    console.log("level", level);
-    console.log(question);
-
     var questionText = `Fråga ${level}: ${question}`;
 
     displayMessage(questionText);
@@ -122,7 +120,7 @@ function visaFraga() {
 
 function submitAnswer() {
     var answer = getInput();
-    var correctAnswer = checkAnswer(answer, matspelet.currentQuestion);
+    var correctAnswer = checkAnswer(answer, matspelet.current);
 
     if (correctAnswer === true) {
         clearInputBox();
