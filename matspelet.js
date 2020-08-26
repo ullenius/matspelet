@@ -1,21 +1,6 @@
-import {questions} from "./questions.js";
+import { matspelet } from "./game.js";
 "use strict";
 // Av Magnus Andersson 2011
-
-var matspelet = {
-
-    randomQuestions: [],
-    current : undefined,
-    *[Symbol.iterator]() {
-        var question = this.randomQuestions.shift();
-        this.current = question;
-        yield question;
-    },
-    init() {
-        this.randomQuestions = getRandomQuestions();
-        console.log(this.randomQuestions); //DEBUG
-    }
-};
 
 window.onload = init;
 
@@ -62,27 +47,6 @@ function startGame() {
     startButton( { enabled: false } );
     clearResult();
     visaFraga();
-
-}
-function getRandomQuestions() {
-    {
-       let arr = questions.map(function pullLevels(element) {
-            return element.level;
-        });
-       let mySet = new Set(arr);
-       var levels = [...mySet].sort();
-    }
-    var randomQuestions = [];
-
-    levels.forEach(function pickOneRandomQuestionPerLevel(level) {
-
-        let questionArr = questions.filter(function equals(question) {
-            return (question.level === level);
-        });
-        const rng = Math.floor (Math.random() * questionArr.length);
-        randomQuestions.push(questionArr[rng]);
-      });
-      return randomQuestions;
 }
 
 function clearResult() {
@@ -100,7 +64,7 @@ function visaFraga() {
 
     var iterator = matspelet[Symbol.iterator]();
     var next = iterator.next();
-    console.log(next);
+    console.log(next); // DEBUG
     var {
         done,
         value : {
@@ -112,10 +76,10 @@ function visaFraga() {
     displayMessage(questionText, done);
 
     matspelet.intervalId = setInterval(countdown, 1000); // TODO move this
-    console.log("setIntervalId = " + matspelet.intervalId); //DEBUG
+    console.log("setIntervalId = ", matspelet.intervalId); //DEBUG
 
     function countdown() {
-        displayTime("Tid kvar: " + counter--);
+        displayTime(`Tid kvar: ${counter--}`);
         if (counter === 0) {
             gameOver("Tiden tog slut. Försök igen...");
         }
