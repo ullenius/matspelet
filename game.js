@@ -27,8 +27,10 @@ export var matspelet = {
     current : undefined,
     *[Symbol.iterator]() {
         var question = this.randomQuestions.shift();
-        this.current = question;
-        yield question;
+        if (question) {
+            this.current = question;
+            yield question;
+        }
     },
     init() {
         this.randomQuestions = getRandomQuestions();

@@ -2,6 +2,9 @@ import { matspelet } from "./game.js";
 "use strict";
 // Av Magnus Andersson 2011
 
+const START = "start";
+const ANSWER = "answer";
+
 window.onload = init;
 
 function init() {
@@ -20,7 +23,9 @@ function init() {
     var answerButton = document.getElementById("answer");
     answerButton.addEventListener("click", submitAnswer);
 
-    startButton( { enabled: true } );
+    toggleButton( { name: START, enabled: true } );
+    toggleButton( { name: ANSWER, enabled: false } );
+
     displayTime("Tid kvar: Spel ej startat");
 }
 
@@ -38,15 +43,16 @@ function gameOver(message = "") {
     clearInterval(matspelet.intervalId);
     var textNodeResultat = document.createTextNode(message);
     document.getElementById("resultat").appendChild(textNodeResultat);
-    init(); // remove?
+    init();
 }
 
 function startGame() {
 
     matspelet.init();
-    startButton( { enabled: false } );
+    toggleButton( { name: START, enabled: false } );
+    toggleButton( { name: ANSWER, enabled: true } );
     clearResult();
-    visaFraga();
+    showQuestion();
 }
 
 function clearResult() {
@@ -54,13 +60,13 @@ function clearResult() {
     result.textContent = undefined;
 }
 
-function startButton( { enabled } ) {
-    var startButton = document.getElementById("start");
-    startButton.disabled = !enabled;
+function toggleButton( { name, enabled } ) {
+    var button = document.getElementById(name);
+    button.disabled = !enabled;
 }
 
-function visaFraga() {
-    var counter = 100;
+function showQuestion() {
+    var counter = 10;
 
     var iterator = matspelet[Symbol.iterator]();
     var next = iterator.next();
@@ -72,10 +78,16 @@ function visaFraga() {
                 question
                 } = {}
     } = next;
+
+    if (done) {
+        gameOver("Du vann!");
+        return;
+    }
+
     var questionText = `Fråga ${level}: ${question}`;
     displayMessage(questionText, done);
 
-    matspelet.intervalId = setInterval(countdown, 1000); // TODO move this
+    matspelet.intervalId = setInterval(countdown, 1000);
     console.log("setIntervalId = ", matspelet.intervalId); //DEBUG
 
     function countdown() {
@@ -86,22 +98,15 @@ function visaFraga() {
     }
 }
 
-function submitAnswer(lastQuestion = false) {
+function submitAnswer() {
     var answer = getInput();
     var correctAnswer = checkAnswer(answer, matspelet.current);
 
     if (correctAnswer === true) {
         clearInputBox();
         clearInterval(matspelet.intervalId);
-
-        if (lastQuestion === true) {
-            gameOver("Du vann!");
-            //window.location.assign("pris.html");
-        } 
-        else {
-            visaFraga();
-        }
-    } else if (correctAnswer === false) {
+        showQuestion();
+    } else {
         gameOver("Fel svar! Försök igen...");
     }
 
