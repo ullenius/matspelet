@@ -10,6 +10,10 @@ var matspelet = {
         var question = this.randomQuestions.shift();
         this.current = question;
         yield question;
+    },
+    init() {
+        this.randomQuestions = getRandomQuestions();
+        console.log(this.randomQuestions); //DEBUG
     }
 };
 
@@ -54,8 +58,7 @@ function gameOver(message = "") {
 
 function startGame() {
 
-    matspelet.randomQuestions = getRandomQuestions();
-    console.log(matspelet.randomQuestions); //DEBUG
+    matspelet.init();
     startButton( { enabled: false } );
     clearResult();
     visaFraga();
@@ -93,19 +96,20 @@ function startButton( { enabled } ) {
 }
 
 function visaFraga() {
-    var counter = 10;
+    var counter = 100;
 
     var iterator = matspelet[Symbol.iterator]();
     var next = iterator.next();
+    console.log(next);
     var {
+        done,
         value : {
                 level,
                 question
-                }
+                } = {}
     } = next;
     var questionText = `Fråga ${level}: ${question}`;
-
-    displayMessage(questionText);
+    displayMessage(questionText, done);
 
     matspelet.intervalId = setInterval(countdown, 1000); // TODO move this
     console.log("setIntervalId = " + matspelet.intervalId); //DEBUG
@@ -118,7 +122,7 @@ function visaFraga() {
     }
 }
 
-function submitAnswer() {
+function submitAnswer(lastQuestion = false) {
     var answer = getInput();
     var correctAnswer = checkAnswer(answer, matspelet.current);
 
@@ -126,14 +130,14 @@ function submitAnswer() {
         clearInputBox();
         clearInterval(matspelet.intervalId);
 
-        if (lastQuestion() === true) {
+        if (lastQuestion === true) {
             gameOver("Du vann!");
             //window.location.assign("pris.html");
-        } else {
+        } 
+        else {
             visaFraga();
         }
-    }
-    else if (correctAnswer === false) {
+    } else if (correctAnswer === false) {
         gameOver("Fel svar! Försök igen...");
     }
 
@@ -149,8 +153,5 @@ function submitAnswer() {
         function equalsIgnoreCase(first, second) {
             return first.toLowerCase() === second.toLowerCase();
         }
-    }
-    function lastQuestion() {
-        return (matspelet.randomQuestions.length === 0) ? true : false;
     }
 }
